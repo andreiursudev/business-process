@@ -14,6 +14,10 @@ public class Diagram {
     public static void addElement(Element element) {
         elements.add(element);
     }
+
+    public static Element getLastElement(){
+        return elements.get(elements.size() - 1);
+    }
 }
 
 

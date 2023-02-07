@@ -7,7 +7,8 @@ import ro.rodin.businessprocessdemoapp.diagram.Element;
 import java.util.LinkedHashMap;
 
 public aspect World {
-    pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.NameToJson.toJson(..));
+    //pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.logic.NameToJson.toJson(..));
+    pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.logic..*(..));
     //pointcut wrapAll() : execution(* *(..));
 
     Object around(): wrapAll(){

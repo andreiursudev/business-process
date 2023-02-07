@@ -1,6 +1,7 @@
 package ro.rodin.businessprocessdemoapp.diagram;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class Element {
     private LinkedHashMap<String, Object> input;
@@ -17,24 +18,17 @@ public class Element {
         this.output = output;
     }
 
-    public LinkedHashMap<String, Object> getInput() {
-        return input;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Element element = (Element) o;
+        return Objects.equals(input, element.input) && Objects.equals(packageName, element.packageName) && Objects.equals(className, element.className) && Objects.equals(methodName, element.methodName) && Objects.equals(output, element.output);
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public Object getOutput() {
-        return output;
+    @Override
+    public int hashCode() {
+        return Objects.hash(input, packageName, className, methodName, output);
     }
 
     @Override

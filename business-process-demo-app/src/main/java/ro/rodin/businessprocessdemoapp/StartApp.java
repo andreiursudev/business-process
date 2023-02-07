@@ -1,5 +1,7 @@
 package ro.rodin.businessprocessdemoapp;
 
+import ro.rodin.businessprocessdemoapp.logic.NameToJson;
+
 public class StartApp {
     public static void main(String[] args) {
         NameToJson nameToJson = new NameToJson();

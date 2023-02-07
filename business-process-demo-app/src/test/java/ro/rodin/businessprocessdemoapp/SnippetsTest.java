@@ -1,6 +1,7 @@
 package ro.rodin.businessprocessdemoapp;
 
 import org.junit.jupiter.api.Test;
+import ro.rodin.businessprocessdemoapp.logic.NameToJson;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

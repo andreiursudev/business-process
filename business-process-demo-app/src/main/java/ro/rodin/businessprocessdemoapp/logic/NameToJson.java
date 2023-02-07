@@ -1,4 +1,4 @@
-package ro.rodin.businessprocessdemoapp;
+package ro.rodin.businessprocessdemoapp.logic;
 
 public class NameToJson {
     public String toJson(String firstName, String lastName) {
