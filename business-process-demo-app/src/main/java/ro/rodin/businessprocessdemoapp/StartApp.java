@@ -1,11 +1,11 @@
 package ro.rodin.businessprocessdemoapp;
 
-import ro.rodin.businessprocessdemoapp.logic.NameToJson;
+import ro.rodin.businessprocessdemoapp.logic.Methods;
 
 public class StartApp {
     public static void main(String[] args) {
-        NameToJson nameToJson = new NameToJson();
-        String result = nameToJson.toJson("Andrei", "Ursu");
+        Methods methods = new Methods();
+        String result = methods.returnTypeTwoParameter("Andrei", "Ursu");
         System.out.println("result= " + result);
     }
 }

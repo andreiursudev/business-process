@@ -12,4 +12,16 @@ public class Methods {
     public void voidAndTwoParametersMethod(String firstParameter, String secondParameter) {
         System.out.println(firstParameter + secondParameter);
     }
+
+    public String returnTypeNoParameter() {
+        return "stringParam";
+    }
+
+    public String returnTypeOneParameter(String firstParameter) {
+        return firstParameter + "Result";
+    }
+
+    public String returnTypeTwoParameter(String firstParameter, String secondParameter) {
+        return firstParameter + secondParameter;
+    }
 }

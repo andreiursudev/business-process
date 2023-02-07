@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import ro.rodin.businessprocessdemoapp.diagram.Diagram;
 import ro.rodin.businessprocessdemoapp.diagram.Element;
 import ro.rodin.businessprocessdemoapp.logic.Methods;
-import ro.rodin.businessprocessdemoapp.logic.NameToJson;
 
 import java.util.LinkedHashMap;
 
@@ -57,20 +56,47 @@ public class DemoAppsTest {
     }
 
     @Test
-    void NameToJson() {
-        NameToJson nameToJson = new NameToJson();
+    void returnTypeNoParameterMethodToElement() {
+        Methods methods = new Methods();
 
-        nameToJson.toJson("Andrei", "Ursu");
+        String result = methods.returnTypeNoParameter();
 
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        parameters.put("firstName", "Andrei");
-        parameters.put("lastName", "Ursu");
-        assertEquals(new Element(parameters,
+        assertEquals(new Element(new LinkedHashMap<>(),
                 "ro.rodin.businessprocessdemoapp.logic",
-                "NameToJson",
-                "toJson",
-                "{\"firstName\" : \"Andrei\", \"lastName\" : \"Ursu\"}"), Diagram.getLastElement());
+                "Methods",
+                "returnTypeNoParameter",
+                result), Diagram.getLastElement());
     }
 
+    @Test
+    void returnTypeOneParameterMethodToElement() {
+        Methods methods = new Methods();
+
+        String result = methods.returnTypeOneParameter("parameterValue");
+
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("firstParameter", "parameterValue");
+        assertEquals(new Element(parameters,
+                "ro.rodin.businessprocessdemoapp.logic",
+                "Methods",
+                "returnTypeOneParameter",
+                result), Diagram.getLastElement());
+    }
+
+    @Test
+    void returnTypeTwoParameterMethodToElement() {
+        Methods methods = new Methods();
+
+        String result = methods.returnTypeTwoParameter("firstParameterValue", "secondParameterValue");
+
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("firstParameter", "firstParameterValue");
+        parameters.put("secondParameter", "secondParameterValue");
+        assertEquals(new Element(parameters,
+                "ro.rodin.businessprocessdemoapp.logic",
+                "Methods",
+                "returnTypeTwoParameter",
+                result), Diagram.getLastElement());
+    }
 
 }

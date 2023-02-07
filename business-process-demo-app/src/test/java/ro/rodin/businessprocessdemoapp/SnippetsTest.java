@@ -1,7 +1,7 @@
 package ro.rodin.businessprocessdemoapp;
 
 import org.junit.jupiter.api.Test;
-import ro.rodin.businessprocessdemoapp.logic.NameToJson;
+import ro.rodin.businessprocessdemoapp.logic.Methods;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -29,12 +29,12 @@ public class SnippetsTest {
 
     @Test
     void NameToJsonWrap() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        NameToJson nameToJson = new NameToJson();
+        Methods methods = new Methods();
 
-        Object toJson = wrapEndExecute(nameToJson, "toJson", "Andrei", "Ursu");
+        Object toJson = wrapEndExecute(methods, "returnTypeTwoParameter", "Andrei", "Ursu");
 
 
-        assertEquals("{\"firstName\" : \"Andrei\", \"lastName\" : \"Ursu\"}", toJson);
+        assertEquals("AndreiUrsu", toJson);
     }
 
     static Object wrapEndExecute(Object proxy, String method, Object... args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
