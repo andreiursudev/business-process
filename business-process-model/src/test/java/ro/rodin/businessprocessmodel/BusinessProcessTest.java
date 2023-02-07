@@ -10,7 +10,7 @@ public class BusinessProcessTest {
 
     @Test
     void businessProcessWithOneActivity() {
-        Activity activity = new Activity();
+        Activity activity = new Activity(){};
         BusinessProcess businessProcess = new BusinessProcess(activity);
 
         assertEquals(activity, businessProcess.getActivities().get(0));

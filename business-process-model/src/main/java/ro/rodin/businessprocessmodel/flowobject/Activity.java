@@ -1,4 +1,4 @@
 package ro.rodin.businessprocessmodel.flowobject;
 
-public class Activity {
+public interface Activity {
 }
