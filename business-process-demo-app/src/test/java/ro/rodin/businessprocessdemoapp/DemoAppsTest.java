@@ -41,6 +41,22 @@ public class DemoAppsTest {
     }
 
     @Test
+    void voidAndTwoParametersMethodToElement() {
+        Methods methods = new Methods();
+
+        methods.voidAndTwoParametersMethod("firstParameterValue", "secondParameterValue");
+
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("firstParameter", "firstParameterValue");
+        parameters.put("secondParameter", "secondParameterValue");
+        assertEquals(new Element(parameters,
+                "ro.rodin.businessprocessdemoapp.logic",
+                "Methods",
+                "voidAndTwoParametersMethod",
+                null), Diagram.getLastElement());
+    }
+
+    @Test
     void NameToJson() {
         NameToJson nameToJson = new NameToJson();
 

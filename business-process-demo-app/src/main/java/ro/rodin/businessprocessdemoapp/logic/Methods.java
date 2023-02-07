@@ -8,4 +8,8 @@ public class Methods {
     public void voidAndOneParameter(String firstParameter) {
         System.out.println(firstParameter);
     }
+
+    public void voidAndTwoParametersMethod(String firstParameter, String secondParameter) {
+        System.out.println(firstParameter + secondParameter);
+    }
 }
