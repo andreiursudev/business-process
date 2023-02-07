@@ -4,21 +4,23 @@ import org.aspectj.lang.reflect.CodeSignature;
 import ro.rodin.businessprocessdemoapp.diagram.Diagram;
 import ro.rodin.businessprocessdemoapp.diagram.Element;
 
+import java.util.LinkedHashMap;
+
 public aspect World {
     //pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.logic.NameToJson.toJson(..));
     pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.logic..*(..));
     //pointcut wrapAll() : execution(* *(..));
 
     Object around(): wrapAll(){
-        var signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
-        var args = thisJoinPoint.getArgs();
+        CodeSignature signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
+        Object[] args = thisJoinPoint.getArgs();
 
-        var input = WorldHelper.getInput(signature, args);
-        var packageName = signature.getDeclaringType().getPackageName();
-        var className = signature.getDeclaringType().getSimpleName();
-        var methodName = signature.getName();
+        LinkedHashMap<String, Object> input = WorldHelper.getInput(signature, args);
+        String packageName = signature.getDeclaringType().getPackageName();
+        String className = signature.getDeclaringType().getSimpleName();
+        String methodName = signature.getName();
 
-        var output = proceed();
+        Object output = proceed();
 
         Diagram.addElement(new Element(input, packageName, className, methodName, output));
 

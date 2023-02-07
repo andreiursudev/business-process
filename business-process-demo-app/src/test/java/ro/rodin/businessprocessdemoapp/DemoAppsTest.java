@@ -7,7 +7,6 @@ import ro.rodin.businessprocessdemoapp.logic.Methods;
 import ro.rodin.businessprocessdemoapp.logic.NameToJson;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,12 +26,25 @@ public class DemoAppsTest {
     }
 
     @Test
+    void voidAndOneParameterMethodToElement() {
+        Methods methods = new Methods();
+
+        methods.voidAndOneParameter("parameterValue");
+
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("firstParameter", "parameterValue");
+        assertEquals(new Element(parameters,
+                "ro.rodin.businessprocessdemoapp.logic",
+                "Methods",
+                "voidAndOneParameter",
+                null), Diagram.getLastElement());
+    }
+
+    @Test
     void NameToJson() {
         NameToJson nameToJson = new NameToJson();
 
         nameToJson.toJson("Andrei", "Ursu");
-
-        List<Element> elements = Diagram.getElements();
 
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("firstName", "Andrei");
