@@ -14,6 +14,10 @@
             border-radius: 10px;
             margin: 3px;
         }
+
+        .selected {
+            background: #2F6F44;
+        }
     </style>
 </head>
 <body>
@@ -28,7 +32,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <select id="objectTestCasesSelect" class="form-select" aria-label="multiple select example">
+                <select id="objectTestCasesSelect" class="form-select" aria-label="multiple select example" autofocus>
                 </select>
                 <div class="container-fluid">
                     <div class="row">
@@ -39,7 +43,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Select Test Case</button>
+                <button id="selectedTestCase" type="button" class="btn btn-primary">Select Test Case</button>
             </div>
         </div>
     </div>
@@ -69,101 +73,115 @@
     <option>{{this}}</option>
     {{/each}}
 </script>
+<script id="inputOutputToolTip" type="text/x-handlebars-template">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Input:
+            </div>
+            <div class="col">
+                Output:
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{input}}
+            </div>
+            <div class="col">
+                {{output}}
+            </div>
+        </div>
+    </div>
+</script>
 <script>
-    $(document).ready(function(){
+$(document).ready(function(){
 
-        var objectsTree =[
-            {
+    var objectsTree =[
+        {
+            "packageName": "package",
+            "objectName": "Object1",
+            "methodName": "method",
+        },
+        {
+            "packageName": "package",
+            "objectName": "Object2",
+            "methodName": "method",
+            "children" : [{
                 "packageName": "package",
-                "objectName": "Object1",
+                "objectName": "Object3",
+                "methodName": "method",
+            }]
+        }
+        ,
+        {
+            "packageName": "package",
+            "objectName": "Object4",
+            "methodName": "method",
+            "children": [{
+                "packageName": "package",
+                "objectName": "Object5",
+                "methodName": "method",
+            },{
+                "packageName": "package",
+                "objectName": "Object6",
+                "methodName": "method",
+            }]
+        }
+        ,
+        {
+            "packageName": "package",
+            "objectName": "Object7",
+            "methodName": "method",
+            "children": [{
+                "packageName": "package",
+                "objectName": "Object8",
+                "methodName": "method",
+            },{
+                "packageName": "package",
+                "objectName": "Object9",
                 "methodName": "method",
             },
             {
                 "packageName": "package",
-                "objectName": "Object2",
-                "methodName": "method",
-                "children" : [{
-                    "packageName": "package",
-                    "objectName": "Object3",
-                    "methodName": "method",
-                }]
-            }
-            ,
-            {
-                "packageName": "package",
-                "objectName": "Object4",
+                "objectName": "Object10",
                 "methodName": "method",
                 "children": [{
                     "packageName": "package",
-                    "objectName": "Object5",
+                    "objectName": "Object11",
                     "methodName": "method",
                 },{
                     "packageName": "package",
-                    "objectName": "Object6",
+                    "objectName": "Object12",
                     "methodName": "method",
                 }]
+            }]
+        }
+    ];
+
+    $.each(objectsTree, function(i, node) {
+        function appendToElement(element, node) {
+            let table = $('<table>');
+            let tr = $('<tr>');
+            let div = $('<div>');
+            div.prop('id', node.objectName)
+            tr.append($('<td>').append(div.addClass("method").append(node.objectName)))
+            table.append(tr);
+            element.append(table);
+            return tr;
+        }
+
+        function appendTo(element, node) {
+            let tr = appendToElement(element, node);
+            if(node.children != null) {
+                let td = $('<td>');
+                tr.append(td);
+                $.each(node.children, function (i, node) {
+                    appendTo(td, node)
+                })
             }
-            ,
-            {
-                "packageName": "package",
-                "objectName": "Object7",
-                "methodName": "method",
-                "children": [{
-                    "packageName": "package",
-                    "objectName": "Object8",
-                    "methodName": "method",
-                },{
-                    "packageName": "package",
-                    "objectName": "Object9",
-                    "methodName": "method",
-                },
-                {
-                    "packageName": "package",
-                    "objectName": "Object10",
-                    "methodName": "method",
-                    "children": [{
-                        "packageName": "package",
-                        "objectName": "Object11",
-                        "methodName": "method",
-                    },{
-                        "packageName": "package",
-                        "objectName": "Object12",
-                        "methodName": "method",
-                    }]
-                }]
-            }
-        ];
-
-        $.each(objectsTree, function(i, node) {
-            function appendToElement(element, node) {
-                let table = $('<table>');
-                let tr = $('<tr>');
-                let div = $('<div>');
-                div.prop('id', node.objectName)
-                tr.append($('<td>').append(div.addClass("method").append(node.objectName)))
-                table.append(tr);
-                element.append(table);
-                return tr;
-            }
-
-            function appendTo(element, node) {
-                let tr = appendToElement(element, node);
-                if(node.children != null) {
-                    let td = $('<td>');
-                    tr.append(td);
-                    $.each(node.children, function (i, node) {
-                        appendTo(td, node)
-                    })
-                }
-            }
-            appendTo($('#content'), node);
-        });
-
-
-
-
-
-
+        }
+        appendTo($('#content'), node);
+    });
 
     let testCases = {
         "Object1":
@@ -247,18 +265,24 @@
         }
     });
 
-    var selectedObjectTestCases;
     var selectedObject;
+    var selectedObjectTestCases;
+    let selectedTestCase;
+    window.tippyInstances = [];
+
+    $('#exampleModal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+    });
 
     $(".testCasesButton").click(function() {
         let objectId = $(this).prop('id');
         selectedObject = objectId;
         let objectTestCases = testCases[objectId];
         selectedObjectTestCases = objectTestCases;
-        let testCasesOptions = Handlebars.compile($('#testCasesOptions').html());
         let options = Object.keys(objectTestCases);
+
         displayInputAndOutput(options[0]);
-        $("#objectTestCasesSelect").html(testCasesOptions({options: options}));
+        $("#objectTestCasesSelect").html(Handlebars.compile($('#testCasesOptions').html())({options: options}));
     });
 
     $("#objectTestCasesSelect").change(function() {
@@ -266,34 +290,48 @@
     });
 
     function displayInputAndOutput(option) {
-        let selectedObjectTestCaseElement = selectedObjectTestCases[option][selectedObject];
-        $("#input").html(selectedObjectTestCaseElement.input);
-        $("#output").html(selectedObjectTestCaseElement.output);
+        selectedTestCase = option;
+        var selectedObjectTestCaseObject = selectedObjectTestCases[option][selectedObject];
+        $("#input").html(selectedObjectTestCaseObject.input);
+        $("#output").html(selectedObjectTestCaseObject.output);
     }
 
+    function clearTippies(){
+        tippyInstances.forEach(instance => {
+            instance.destroy();
+        });
+        tippyInstances.length = 0;
+    }
 
-
-
-    var myContent = 'My tooltip!';
-
-
-
-    tippy('#myButton', {
-        placement: 'bottom',
-        content: myContent,
-        trigger: 'click',
-        interactive: true,
-        hideOnClick: 'toggle'
+    $("#selectedTestCase").click(function(){
+        $(".selected").removeClass("selected");
+        clearTippies();
+        $.each(Object.keys(selectedObjectTestCases[selectedTestCase]), function(index, value){
+            let selector = "#"+value+".method";
+            $(selector).addClass("selected");
+            let inputOuput = selectedObjectTestCases[selectedTestCase][value];
+            let content = Handlebars.compile($('#inputOutputToolTip').html())({input: inputOuput.input, output: inputOuput.output});
+            let instances = tippy(selector, {
+                placement: 'bottom',
+                content: content,
+                trigger: 'click',
+                interactive: true,
+                hideOnClick: 'toggle',
+                allowHTML: true
+            });
+            window.tippyInstances = tippyInstances.concat(instances);
+        });
+        $("#exampleModal").modal('hide');
     });
 
-    tippy('#myButton2', {
-        placement: 'bottom',
-        content: myContent,
-        trigger: 'click',
-        interactive: true,
-        hideOnClick: 'toggle'
+    $(document).keypress(function(e) {
+        if ($("#exampleModal").hasClass('show') && (e.keycode == 13 || e.which == 13)) {
+            $("#selectedTestCase").click();
+        }
     });
-    });
+});
+
+
 </script>
 </body>
 </html>
