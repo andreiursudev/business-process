@@ -18,21 +18,25 @@
         .selected {
             background: #2F6F44;
         }
+        .openTestCasesSelectModalButton{
+            border-radius: 10px;
+        }
+        .methodTd{
+            vertical-align:top;
+        }
     </style>
 </head>
 <body>
 
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="testCaseSelectModal" tabindex="-1" aria-labelledby="testCaseSelectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="testCaseSelectModalLabel">Select test case</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <select id="objectTestCasesSelect" class="form-select" aria-label="multiple select example" autofocus>
+                <select id="testCasesSelect" class="form-select" aria-label="multiple select example" autofocus>
                 </select>
                 <div class="container-fluid">
                     <div class="row">
@@ -43,18 +47,15 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="selectedTestCase" type="button" class="btn btn-primary">Select Test Case</button>
+                <button id="selectTestCase" type="button" class="btn btn-primary">Select Test Case</button>
             </div>
         </div>
     </div>
 </div>
+
 <div id="content">
 
-
-
 </div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -65,8 +66,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<script id="testCasesButton" type="text/x-handlebars-template">
-    <button id="{{id}}" type="button" class="btn btn-primary testCasesButton" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+<script id="openTestCasesSelectModalButton" type="text/x-handlebars-template">
+    <button id="{{id}}" type="button" class="btn btn-primary openTestCasesSelectModalButton" data-bs-toggle="modal" data-bs-target="#testCaseSelectModal">Test Cases</button>
 </script>
 <script id="testCasesOptions" type="text/x-handlebars-template">
     {{#each options}}
@@ -96,75 +97,53 @@
 <script>
 $(document).ready(function(){
 
-    var objectsTree =[
+    var processesTree =[
         {
-            "packageName": "package",
-            "objectName": "Object1",
-            "methodName": "method",
+            "methodName": "Method1",
         },
         {
-            "packageName": "package",
-            "objectName": "Object2",
-            "methodName": "method",
+            "methodName": "Method2",
             "children" : [{
-                "packageName": "package",
-                "objectName": "Object3",
-                "methodName": "method",
+                "methodName": "Method3",
             }]
         }
         ,
         {
-            "packageName": "package",
-            "objectName": "Object4",
-            "methodName": "method",
+            "methodName": "Method4",
             "children": [{
-                "packageName": "package",
-                "objectName": "Object5",
-                "methodName": "method",
+                "methodName": "Method5",
             },{
-                "packageName": "package",
-                "objectName": "Object6",
-                "methodName": "method",
+                "methodName": "Method6",
             }]
         }
         ,
         {
-            "packageName": "package",
-            "objectName": "Object7",
-            "methodName": "method",
+            "methodName": "Method7",
             "children": [{
-                "packageName": "package",
-                "objectName": "Object8",
-                "methodName": "method",
+                "methodName": "Method8",
             },{
-                "packageName": "package",
-                "objectName": "Object9",
-                "methodName": "method",
+                "methodName": "Method9",
             },
             {
-                "packageName": "package",
-                "objectName": "Object10",
-                "methodName": "method",
+                "methodName": "Method10",
                 "children": [{
-                    "packageName": "package",
-                    "objectName": "Object11",
-                    "methodName": "method",
+                    "methodName": "Method11",
                 },{
-                    "packageName": "package",
-                    "objectName": "Object12",
-                    "methodName": "method",
+                    "methodName": "Method12",
                 }]
             }]
         }
     ];
 
-    $.each(objectsTree, function(i, node) {
+    $.each(processesTree, function(i, node) {
         function appendToElement(element, node) {
             let table = $('<table>');
             let tr = $('<tr>');
             let div = $('<div>');
-            div.prop('id', node.objectName)
-            tr.append($('<td>').append(div.addClass("method").append(node.objectName)))
+            div.prop('id', node.methodName)
+            let td = $('<td>');
+            td.addClass("methodTd");
+            tr.append(td.append(div.addClass("method").append(node.methodName)))
             table.append(tr);
             element.append(table);
             return tr;
@@ -183,74 +162,74 @@ $(document).ready(function(){
         appendTo($('#content'), node);
     });
 
-    let testCases = {
-        "Object1":
+    let allTestCases = {
+        "Method1":
             {
                 "testCase1": {
-                    "Object1": {
+                    "Method1": {
                         "input": "myInput1",
                         "output": "myOutput1"
                     }
                 },
                 "testCase2": {
-                    "Object1": {
+                    "Method1": {
                         "input": "myInput2",
                         "output": "myOutput2"
                     }
                 },
             },
-        "Object2":
+        "Method2":
             {
                 "testCase1": {
-                    "Object2": {
+                    "Method2": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object3": {
+                    "Method3": {
                         "input": "myInput",
                         "output": "myOutput"
                     }
                 },
             },
-        "Object4":
+        "Method4":
             {
                 "testCase1": {
-                    "Object4": {
+                    "Method4": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object5": {
+                    "Method5": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object6": {
+                    "Method6": {
                         "input": "myInput",
                         "output": "myOutput"
                     }
                 }
             },
-        "Object7":
+        "Method7":
             {
                 "testCase1": {
-                    "Object7": {
+                    "Method7": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object8": {
+                    "Method8": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object9": {
+                    "Method9": {
                         "input": "myInput",
                         "output": "myOutput"
                     }
                 },
                 "testCase2": {
-                    "Object7": {
+                    "Method7": {
                         "input": "myInput",
                         "output": "myOutput"
                     },
-                    "Object10": {
+                    "Method10": {
                         "input": "myInput",
                         "output": "myOutput"
                     }
@@ -259,41 +238,41 @@ $(document).ready(function(){
         }
 
     $(".method").each(function(i, method) {
-        if(testCases.hasOwnProperty($(this).prop('id'))){
-            var testCasesButton = Handlebars.compile( $('#testCasesButton').html() );
-            $(this).before($('<div>').html(testCasesButton({ id: method.id })));
+        if(allTestCases.hasOwnProperty($(this).prop('id'))){
+            var openTestCasesSelectModalButton = Handlebars.compile( $('#openTestCasesSelectModalButton').html() );
+            $(this).prepend($('<div>').html(openTestCasesSelectModalButton({ id: method.id })));
         }
     });
 
-    var selectedObject;
-    var selectedObjectTestCases;
-    let selectedTestCase;
+    var selectedMethodId;
+    var selectedMethodTestCases;
+    let selectedMethodTestCaseId;
     window.tippyInstances = [];
 
-    $('#exampleModal').on('shown.bs.modal', function() {
+    $('#testCaseSelectModal').on('shown.bs.modal', function() {
         $(this).find('[autofocus]').focus();
     });
 
-    $(".testCasesButton").click(function() {
-        let objectId = $(this).prop('id');
-        selectedObject = objectId;
-        let objectTestCases = testCases[objectId];
-        selectedObjectTestCases = objectTestCases;
-        let options = Object.keys(objectTestCases);
+    $(".openTestCasesSelectModalButton").click(function() {
+        let methodId = $(this).prop('id');
+        selectedMethodId = methodId;
+        let methodTestCases = allTestCases[methodId];
+        selectedMethodTestCases = methodTestCases;
+        let options = Object.keys(methodTestCases);
 
         displayInputAndOutput(options[0]);
-        $("#objectTestCasesSelect").html(Handlebars.compile($('#testCasesOptions').html())({options: options}));
+        $("#testCasesSelect").html(Handlebars.compile($('#testCasesOptions').html())({options: options}));
     });
 
-    $("#objectTestCasesSelect").change(function() {
+    $("#testCasesSelect").change(function() {
         displayInputAndOutput($(this).val());
     });
 
     function displayInputAndOutput(option) {
-        selectedTestCase = option;
-        var selectedObjectTestCaseObject = selectedObjectTestCases[option][selectedObject];
-        $("#input").html(selectedObjectTestCaseObject.input);
-        $("#output").html(selectedObjectTestCaseObject.output);
+        selectedMethodTestCaseId = option;
+        var methodExecution = selectedMethodTestCases[selectedMethodTestCaseId][selectedMethodId];
+        $("#input").html(methodExecution.input);
+        $("#output").html(methodExecution.output);
     }
 
     function clearTippies(){
@@ -303,14 +282,14 @@ $(document).ready(function(){
         tippyInstances.length = 0;
     }
 
-    $("#selectedTestCase").click(function(){
+    $("#selectTestCase").click(function(){
         $(".selected").removeClass("selected");
         clearTippies();
-        $.each(Object.keys(selectedObjectTestCases[selectedTestCase]), function(index, value){
-            let selector = "#"+value+".method";
+        $.each(Object.keys(selectedMethodTestCases[selectedMethodTestCaseId]), function(index, methodExecution){
+            let selector = "#"+methodExecution+".method";
             $(selector).addClass("selected");
-            let inputOuput = selectedObjectTestCases[selectedTestCase][value];
-            let content = Handlebars.compile($('#inputOutputToolTip').html())({input: inputOuput.input, output: inputOuput.output});
+            let inputOutput = selectedMethodTestCases[selectedMethodTestCaseId][methodExecution];
+            let content = Handlebars.compile($('#inputOutputToolTip').html())({input: inputOutput.input, output: inputOutput.output});
             let instances = tippy(selector, {
                 placement: 'bottom',
                 content: content,
@@ -321,12 +300,12 @@ $(document).ready(function(){
             });
             window.tippyInstances = tippyInstances.concat(instances);
         });
-        $("#exampleModal").modal('hide');
+        $("#testCaseSelectModal").modal('hide');
     });
 
     $(document).keypress(function(e) {
-        if ($("#exampleModal").hasClass('show') && (e.keycode == 13 || e.which == 13)) {
-            $("#selectedTestCase").click();
+        if ($("#testCaseSelectModal").hasClass('show') && (e.keycode == 13 || e.which == 13)) {
+            $("#selectTestCase").click();
         }
     });
 });
