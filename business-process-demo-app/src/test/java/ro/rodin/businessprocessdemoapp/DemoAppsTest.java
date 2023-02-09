@@ -2,7 +2,7 @@ package ro.rodin.businessprocessdemoapp;
 
 import org.junit.jupiter.api.Test;
 import ro.rodin.businessprocessdemoapp.diagram.Diagram;
-import ro.rodin.businessprocessdemoapp.diagram.Element;
+import ro.rodin.businessprocessdemoapp.diagram.MethodExecution;
 import ro.rodin.businessprocessdemoapp.logic.Methods;
 
 import java.util.LinkedHashMap;
@@ -17,11 +17,11 @@ public class DemoAppsTest {
 
         methods.voidNoParameter();
 
-        assertEquals(new Element(new LinkedHashMap<>(),
+        assertEquals(new MethodExecution(new LinkedHashMap<>(),
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidNoParameter",
-                null), Diagram.getLastElement());
+                null), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
     @Test
@@ -32,11 +32,11 @@ public class DemoAppsTest {
 
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("firstParameter", "parameterValue");
-        assertEquals(new Element(parameters,
+        assertEquals(new MethodExecution(parameters,
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidAndOneParameter",
-                null), Diagram.getLastElement());
+                null), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
     @Test
@@ -48,11 +48,11 @@ public class DemoAppsTest {
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("firstParameter", "firstParameterValue");
         parameters.put("secondParameter", "secondParameterValue");
-        assertEquals(new Element(parameters,
+        assertEquals(new MethodExecution(parameters,
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidAndTwoParametersMethod",
-                null), Diagram.getLastElement());
+                null), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
     @Test
@@ -61,11 +61,11 @@ public class DemoAppsTest {
 
         String result = methods.returnTypeNoParameter();
 
-        assertEquals(new Element(new LinkedHashMap<>(),
+        assertEquals(new MethodExecution(new LinkedHashMap<>(),
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeNoParameter",
-                result), Diagram.getLastElement());
+                result), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
     @Test
@@ -76,11 +76,11 @@ public class DemoAppsTest {
 
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("firstParameter", "parameterValue");
-        assertEquals(new Element(parameters,
+        assertEquals(new MethodExecution(parameters,
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeOneParameter",
-                result), Diagram.getLastElement());
+                result), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
     @Test
@@ -92,11 +92,11 @@ public class DemoAppsTest {
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("firstParameter", "firstParameterValue");
         parameters.put("secondParameter", "secondParameterValue");
-        assertEquals(new Element(parameters,
+        assertEquals(new MethodExecution(parameters,
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeTwoParameter",
-                result), Diagram.getLastElement());
+                result), Diagram.getMethodExecutionByTestCase("testCase"));
     }
 
 }

@@ -2,7 +2,7 @@ package ro.rodin.businessprocessdemoapp.aspect;
 
 import org.aspectj.lang.reflect.CodeSignature;
 import ro.rodin.businessprocessdemoapp.diagram.Diagram;
-import ro.rodin.businessprocessdemoapp.diagram.Element;
+import ro.rodin.businessprocessdemoapp.diagram.MethodExecution;
 
 import java.util.LinkedHashMap;
 
@@ -22,7 +22,7 @@ public aspect World {
 
         Object output = proceed();
 
-        Diagram.addElement(new Element(input, packageName, className, methodName, output));
+        //Diagram.addTestCase("testCase", new MethodExecution(input, packageName, className, methodName, output));
 
         return output;
     }

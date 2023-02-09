@@ -1,19 +1,18 @@
 package ro.rodin.businessprocessdemoapp.diagram;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Diagram {
 
-    public static List<Element> elements = new ArrayList<>();
+    public static Map<String, List<MethodExecution>> methodExecutionToTestCase = new HashMap<>();
 
-    public static void addElement(Element element) {
-        elements.add(element);
+
+    public static List<MethodExecution> getMethodExecutionByTestCase(String testCase) {
+        return methodExecutionToTestCase.get(testCase);
     }
 
-    public static Element getLastElement(){
-        return elements.get(elements.size() - 1);
-    }
 }
 
 

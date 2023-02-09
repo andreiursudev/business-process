@@ -3,14 +3,14 @@ package ro.rodin.businessprocessdemoapp.diagram;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-public class Element {
+public class MethodExecution {
     private LinkedHashMap<String, Object> input;
     private String packageName;
     private String className;
     private String methodName;
     private Object output;
 
-    public Element(LinkedHashMap<String, Object> input, String packageName, String className, String methodName, Object output) {
+    public MethodExecution(LinkedHashMap<String, Object> input, String packageName, String className, String methodName, Object output) {
         this.input = input;
         this.packageName = packageName;
         this.className = className;
@@ -22,8 +22,8 @@ public class Element {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Element element = (Element) o;
-        return Objects.equals(input, element.input) && Objects.equals(packageName, element.packageName) && Objects.equals(className, element.className) && Objects.equals(methodName, element.methodName) && Objects.equals(output, element.output);
+        MethodExecution methodExecution = (MethodExecution) o;
+        return Objects.equals(input, methodExecution.input) && Objects.equals(packageName, methodExecution.packageName) && Objects.equals(className, methodExecution.className) && Objects.equals(methodName, methodExecution.methodName) && Objects.equals(output, methodExecution.output);
     }
 
     @Override
