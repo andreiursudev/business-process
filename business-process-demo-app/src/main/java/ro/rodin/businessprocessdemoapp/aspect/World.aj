@@ -33,8 +33,13 @@ public aspect World {
         System.out.println("methodName =" + methodName);
         String callerMethod = thisEnclosingJoinPointStaticPart.getSignature().getName();
         MethodExecution methodExecution = new MethodExecution(methodName, input);
-        GlobalDiagram.getDiagram().addMethodExecutionToTestCase(callerMethod, methodExecution);
+        Diagram diagram = GlobalDiagram.getDiagram();
+        diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
+
+        diagram.increaseStackDepth();
+
         Object output = proceed();
+        diagram.decreaseStackDepth();
 
         methodExecution.setOutput(output);
 

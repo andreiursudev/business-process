@@ -5,30 +5,30 @@ import java.util.*;
 public class Diagram {
 
     public LinkedHashMap<TestCase, List<MethodExecution>> methodExecutionsToTestCase;
-
-    public Diagram(LinkedHashMap<TestCase, List<MethodExecution>> methodExecutionsToTestCase) {
-        this.methodExecutionsToTestCase = methodExecutionsToTestCase;
-    }
+    private Integer stackDepth = 0;
+    private TestCase currentTestCase;
 
     public Diagram() {
         methodExecutionsToTestCase = new LinkedHashMap<>();
     }
 
     public void addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
-        Thread thread = Thread.currentThread();
-        TestCase testCase = new TestCase(thread.getName(), testCaseName);
-
-        if (!methodExecutionsToTestCase.containsKey(testCase)) {
-            String name = UUID.randomUUID().toString();
-            thread.setName(name);
-            testCase.setId(name);
-            methodExecutionsToTestCase.put(testCase, new ArrayList<>());
+        if(stackDepth == 0) {
+            currentTestCase = new TestCase(testCaseName, testCaseName);
+            ArrayList<MethodExecution> methodExecutions = new ArrayList<>();
+            methodExecutions.add(methodExecution);
+            methodExecutionsToTestCase.put(currentTestCase, methodExecutions);
+        } else {
+            methodExecutionsToTestCase.get(currentTestCase).add(methodExecution);
         }
-        methodExecutionsToTestCase.get(testCase).add(methodExecution);
     }
 
-    public void clean() {
-        methodExecutionsToTestCase.clear();
+    public void increaseStackDepth(){
+        stackDepth++;
+    }
+
+    public void decreaseStackDepth(){
+        stackDepth--;
     }
 
     public LinkedHashMap<TestCase, List<MethodExecution>> getMethodExecutionsToTestCase() {
