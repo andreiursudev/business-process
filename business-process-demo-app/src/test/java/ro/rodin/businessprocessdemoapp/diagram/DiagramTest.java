@@ -14,9 +14,9 @@ public class DiagramTest {
     void simpleTestCase() {
         Object1 object1 = new Object1();
 
-        object1.simpleMethod("value1");
+        object1.simpleMethod("value");
 
-        assertEquals(List.of(new MethodExecution("simpleMethod", mapOf("param", "value1"), "value1simpleMethod")),
+        assertEquals(List.of(new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1")),
                 getTestCase("simpleTestCase"));
     }
 
@@ -24,9 +24,9 @@ public class DiagramTest {
     void simpleTestCaseInSeparateTestCase() {
         Object1 object1 = new Object1();
 
-        object1.simpleMethod("value2");
+        object1.simpleMethod("otherValue");
 
-        assertEquals(List.of(new MethodExecution("simpleMethod", mapOf("param", "value2"), "value2simpleMethod")),
+        assertEquals(List.of(new MethodExecution("simpleMethod", mapOf("param", "otherValue"), "otherValue 1")),
                 getTestCase("simpleTestCaseInSeparateTestCase"));
     }
 
@@ -35,31 +35,51 @@ public class DiagramTest {
     void testCaseWithInnerMethodCallInSameClass() {
         Object1 object1 = new Object1();
 
-        object1.methodWithInnerCall("value1");
+        object1.methodWithInnerCall("value");
 
-        assertEquals(List.of(new MethodExecution("methodWithInnerCall", mapOf("param", "value1"), "value1simpleMethodmethodWithInnerCall"),
-                new MethodExecution("simpleMethod", mapOf("param", "value1"), "value1simpleMethod")), getTestCase("testCaseWithInnerMethodCallInSameClass"));
+        assertEquals(List.of(
+                new MethodExecution("methodWithInnerCall", mapOf("param", "value"), "value 1 1"),
+                new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1")),
+                getTestCase("testCaseWithInnerMethodCallInSameClass"));
     }
 
     @Test
     void testCaseWithInnerMethodCallInDifferentClass() {
         Object1 object1 = new Object1();
 
-        object1.methodWithDifferentObjectInnerCall("value1");
+        object1.methodWithDifferentObjectInnerCall("value");
 
-        assertEquals(List.of(new MethodExecution("methodWithDifferentObjectInnerCall", mapOf("param", "value1"), "value1doSomethingmethodWithInnerCall"),
-                new MethodExecution("doSomething", mapOf("param", "value1"), "value1doSomething")), getTestCase("testCaseWithInnerMethodCallInDifferentClass"));
+        assertEquals(List.of(
+                new MethodExecution("methodWithDifferentObjectInnerCall", mapOf("param", "value"), "value 2 1"),
+                new MethodExecution("doSomething", mapOf("param", "value"), "value 2")),
+                getTestCase("testCaseWithInnerMethodCallInDifferentClass"));
     }
 
     @Test
-    void testCaseWithMultipleInnerMethodCallsInDifferentClasss() {
+    void testCaseWithMultipleInnerMethodCallsInDifferentClass() {
         Object1 object1 = new Object1();
 
-        object1.methodWithDifferentObjectsInnerCall("value1");
+        object1.methodWithDifferentObjectsInnerCall("value");
 
-        assertEquals(List.of(new MethodExecution("methodWithDifferentObjectsInnerCall", mapOf("param", "value1"), "value1doSomethingvalue1doSomethingElse"),
-                new MethodExecution("doSomething", mapOf("param", "value1"), "value1doSomething"),
-                new MethodExecution("doSomethingElse", mapOf("param", "value1"), "value1doSomethingElse")), getTestCase("testCaseWithMultipleInnerMethodCallsInDifferentClasss"));
+        assertEquals(List.of(
+                new MethodExecution("methodWithDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 3"),
+                new MethodExecution("doSomething", mapOf("param", "value"), "value 2"),
+                new MethodExecution("doSomethingElse", mapOf("param", "value"), "value 3")),
+                getTestCase("testCaseWithMultipleInnerMethodCallsInDifferentClass"));
+    }
+
+    @Test
+    void testCaseWithMoreDepthMethodCallsInDifferentClass() {
+        Object1 object1 = new Object1();
+
+        object1.methodWithMoreDepthDifferentObjectsInnerCall("value");
+
+        assertEquals(List.of(
+                new MethodExecution("methodWithMoreDepthDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 4 3"),
+                new MethodExecution("doSomething", mapOf("param", "value"), "value 2"),
+                new MethodExecution("doSomethingElseWithObject4", mapOf("param", "value"), "value 4 3"),
+                new MethodExecution("doSomethingNew", mapOf("param", "value"), "value 4")),
+                getTestCase("testCaseWithMoreDepthMethodCallsInDifferentClass"));
     }
 
     private static List<MethodExecution> getTestCase(String testCaseName) {

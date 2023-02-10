@@ -36,6 +36,7 @@ public aspect World {
         Diagram diagram = GlobalDiagram.getDiagram();
         diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
 
+
         diagram.increaseStackDepth();
 
         Object output = proceed();
