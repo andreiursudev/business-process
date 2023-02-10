@@ -14,13 +14,10 @@ public class Diagram {
 
     public void addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
         if(stackDepth == 0) {
-            currentTestCase = new TestCase(testCaseName, testCaseName);
-            ArrayList<MethodExecution> methodExecutions = new ArrayList<>();
-            methodExecutions.add(methodExecution);
-            methodExecutionsToTestCase.put(currentTestCase, methodExecutions);
-        } else {
-            methodExecutionsToTestCase.get(currentTestCase).add(methodExecution);
+            currentTestCase = new TestCase(testCaseName);
+            methodExecutionsToTestCase.put(currentTestCase, new ArrayList<>());
         }
+        methodExecutionsToTestCase.get(currentTestCase).add(methodExecution);
     }
 
     public void increaseStackDepth(){
