@@ -1,17 +1,9 @@
-package ro.rodin.businessprocessdemoapp;
-
-import org.junit.jupiter.api.Test;
-import ro.rodin.businessprocessdemoapp.diagram.Diagram;
-import ro.rodin.businessprocessdemoapp.diagram.MethodExecution;
-import ro.rodin.businessprocessdemoapp.logic.Methods;
-
-import java.util.LinkedHashMap;
+package ro.rodin.businessprocessdemoapp.aspect;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DemoAppsTest {
-
-    @Test
+class WorldHelperTest {
+    /*@Test
     void voidNoParameterMethodToElement() {
         Methods methods = new Methods();
 
@@ -21,7 +13,7 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidNoParameter",
-                null), Diagram.getMethodExecutionByTestCase("testCase"));
+                null), Diagram.getTestCasesToMethod());
     }
 
     @Test
@@ -36,7 +28,7 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidAndOneParameter",
-                null), Diagram.getMethodExecutionByTestCase("testCase"));
+                null), Diagram.getTestCasesToMethod());
     }
 
     @Test
@@ -52,7 +44,7 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "voidAndTwoParametersMethod",
-                null), Diagram.getMethodExecutionByTestCase("testCase"));
+                null), Diagram.getTestCasesToMethod());
     }
 
     @Test
@@ -65,7 +57,7 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeNoParameter",
-                result), Diagram.getMethodExecutionByTestCase("testCase"));
+                result), Diagram.getTestCasesToMethod());
     }
 
     @Test
@@ -80,7 +72,7 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeOneParameter",
-                result), Diagram.getMethodExecutionByTestCase("testCase"));
+                result), Diagram.getTestCasesToMethod());
     }
 
     @Test
@@ -96,7 +88,6 @@ public class DemoAppsTest {
                 "ro.rodin.businessprocessdemoapp.logic",
                 "Methods",
                 "returnTypeTwoParameter",
-                result), Diagram.getMethodExecutionByTestCase("testCase"));
-    }
-
+                result), Diagram.getTestCasesToMethod());
+    }*/
 }

@@ -4,17 +4,24 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public class MethodExecution {
-    private LinkedHashMap<String, Object> input;
-    private String packageName;
-    private String className;
+
     private String methodName;
+    private LinkedHashMap<String, Object> input;
     private Object output;
 
-    public MethodExecution(LinkedHashMap<String, Object> input, String packageName, String className, String methodName, Object output) {
-        this.input = input;
-        this.packageName = packageName;
-        this.className = className;
+    public MethodExecution(String methodName, LinkedHashMap<String, Object> input) {
         this.methodName = methodName;
+        this.input = input;
+    }
+
+    public MethodExecution(String methodName, LinkedHashMap<String, Object> input, Object output) {
+        this.methodName = methodName;
+        this.input = input;
+        this.output = output;
+    }
+
+
+    public void setOutput(Object output) {
         this.output = output;
     }
 
@@ -22,22 +29,20 @@ public class MethodExecution {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MethodExecution methodExecution = (MethodExecution) o;
-        return Objects.equals(input, methodExecution.input) && Objects.equals(packageName, methodExecution.packageName) && Objects.equals(className, methodExecution.className) && Objects.equals(methodName, methodExecution.methodName) && Objects.equals(output, methodExecution.output);
+        MethodExecution that = (MethodExecution) o;
+        return Objects.equals(methodName, that.methodName) && Objects.equals(input, that.input) && Objects.equals(output, that.output);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(input, packageName, className, methodName, output);
+        return Objects.hash(methodName, input, output);
     }
 
     @Override
     public String toString() {
-        return "Element{" +
-                "input=" + input +
-                ", packageName='" + packageName + '\'' +
-                ", className='" + className + '\'' +
-                ", methodName='" + methodName + '\'' +
+        return "MethodExecution2{" +
+                "methodName='" + methodName + '\'' +
+                ", input=" + input +
                 ", output=" + output +
                 '}';
     }

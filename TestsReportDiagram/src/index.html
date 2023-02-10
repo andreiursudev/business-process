@@ -97,7 +97,7 @@
 <script>
 $(document).ready(function(){
 
-    var processesTree =[
+    var methodsTree =[
         {
             "methodName": "Method1",
         },
@@ -135,7 +135,7 @@ $(document).ready(function(){
         }
     ];
 
-    $.each(processesTree, function(i, node) {
+    $.each(methodsTree, function(i, node) {
         function appendToElement(element, node) {
             let table = $('<table>');
             let tr = $('<tr>');
@@ -162,7 +162,7 @@ $(document).ready(function(){
         appendTo($('#content'), node);
     });
 
-    let allTestCases = {
+    let testCasesToMethod = {
         "Method1":
             {
                 "testCase1": {
@@ -238,7 +238,7 @@ $(document).ready(function(){
         }
 
     $(".method").each(function(i, method) {
-        if(allTestCases.hasOwnProperty($(this).prop('id'))){
+        if(testCasesToMethod.hasOwnProperty($(this).prop('id'))){
             var openTestCasesSelectModalButton = Handlebars.compile( $('#openTestCasesSelectModalButton').html() );
             $(this).prepend($('<div>').html(openTestCasesSelectModalButton({ id: method.id })));
         }
@@ -256,7 +256,7 @@ $(document).ready(function(){
     $(".openTestCasesSelectModalButton").click(function() {
         let methodId = $(this).prop('id');
         selectedMethodId = methodId;
-        let methodTestCases = allTestCases[methodId];
+        let methodTestCases = testCasesToMethod[methodId];
         selectedMethodTestCases = methodTestCases;
         let options = Object.keys(methodTestCases);
 
