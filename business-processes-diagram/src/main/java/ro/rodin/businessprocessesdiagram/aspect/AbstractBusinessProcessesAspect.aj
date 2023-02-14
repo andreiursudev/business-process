@@ -3,22 +3,17 @@ package ro.rodin.businessprocessesdiagram.aspect;
 import org.aspectj.lang.reflect.CodeSignature;
 import ro.rodin.businessprocessesdiagram.diagram.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-public aspect World {
-    //pointcut wrapAll(): execution(* ro.rodin.businessprocessdemoapp.logic.NameToJson.toJson(..));
-    //pointcut wrapExecutionAll(): execution(* ro.rodin.businessprocessdemoapp.logic..*(..));
-    pointcut wrapCallAll(): call(* ro.rodin.businessprocessesdiagram.logic..*(..));
-    //pointcut wrapAll() : execution(* *(..));
+public abstract aspect AbstractBusinessProcessesAspect {
+    abstract pointcut process();
 
-    /*before() : wrapExecutionAll(){
-        CodeSignature signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
-        Object[] args = thisJoinPoint.getArgs();
-        String callerSignature = thisEnclosingJoinPointStaticPart.getSignature().getName();
-        System.out.println("before wrapExecutionAll=" + callerSignature);
-    }*/
-
-    Object around(): wrapCallAll(){
+    Object around(): process(){
         CodeSignature signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
         Object[] args = thisJoinPoint.getArgs();
 
@@ -34,9 +29,7 @@ public aspect World {
         String callerMethod = thisEnclosingJoinPointStaticPart.getSignature().getName();
         MethodExecution methodExecution = new MethodExecution(methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
-        diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
-
-
+        Map<TestCase, List<MethodExecution>> testCase = diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
 
         diagram.increaseStackDepth();
 
@@ -45,14 +38,19 @@ public aspect World {
 
         methodExecution.setOutput(output);
 
+        if(GlobalDiagram.getDiagram().getStackDepth() == 0) {
+            try {
+                FileWriter fw = new FileWriter("diagram.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(testCase.toString());
+                bw.newLine();
+                bw.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return output;
     }
-
-    /*before() : wrapCallAll(){
-        CodeSignature signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
-        Object[] args = thisJoinPoint.getArgs();
-        String callerSignature = thisEnclosingJoinPointStaticPart.getSignature().getName();
-        System.out.println("before wrapCallAll=" + callerSignature);
-    }*/
 
 }

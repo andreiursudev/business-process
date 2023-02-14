@@ -1,9 +1,6 @@
 package ro.rodin.businessprocessesdiagram.diagram;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Diagram {
 
@@ -15,7 +12,7 @@ public class Diagram {
         methodExecutionsToTestCase = new LinkedHashMap<>();
     }
 
-    public void addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
+    public Map<TestCase, List<MethodExecution>> addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
         if (stackDepth == 0) {
             currentTestCase = new TestCase(testCaseName);
             methodExecutionsToTestCase.put(currentTestCase, new ArrayList<>());
@@ -28,6 +25,7 @@ public class Diagram {
             }
             currentMethodExecution.getChildren().add(methodExecution);
         }
+        return Map.of(currentTestCase, methodExecutionsToTestCase.get(currentTestCase));
     }
 
     public void increaseStackDepth() {
@@ -36,6 +34,10 @@ public class Diagram {
 
     public void decreaseStackDepth() {
         stackDepth--;
+    }
+
+    public Integer getStackDepth() {
+        return stackDepth;
     }
 
     public LinkedHashMap<TestCase, List<MethodExecution>> getMethodExecutionsToTestCase() {
