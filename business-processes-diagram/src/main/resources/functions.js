@@ -30,6 +30,9 @@ var getTestCasesToMethod = function(myTestCases) {
         let methods = {};
         methods[executedMethodName] = {"input": executedMethodInput, "output": executedMethodOutput};
         let testCases = {};
+        if(result.hasOwnProperty(executedMethodName)){
+            testCases = result[executedMethodName];
+        }
         testCases[testCaseName] = methods;
         result[executedMethodName] = testCases;
     }

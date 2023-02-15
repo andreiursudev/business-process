@@ -134,7 +134,7 @@ $(document).ready(function(){
     });
 
 
-    var testCasesToMethod = getTestCasesToMethod(testCase);
+    var testCasesToMethod = getTestCasesToMethod(testCases);
 
     $(".method").each(function(i, method) {
         if(testCasesToMethod.hasOwnProperty($(this).prop('id'))){

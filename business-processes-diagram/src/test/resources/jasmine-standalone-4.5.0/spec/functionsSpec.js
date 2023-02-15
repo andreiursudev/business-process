@@ -39,5 +39,18 @@ describe('getTestCasesToMethod', function() {
 
         expect(result).toEqual({"method1":{"callMethod1": {"method1": {"input": {"value":"value"},"output": "result value"}}}});
     });
+
+    it('should return two test cases for one method', function() {
+        var testCases = {
+            testCase1 : {"testCaseName":"callMethod2Scenario1","methodExecution":{"methodName":"method2","input":{"value":"value1"},"output":"result value1","children":[]}},
+            testCase2 : {"testCaseName":"callMethod2Scenario2","methodExecution":{"methodName":"method2","input":{"value":"value2"},"output":"result value2","children":[]}}
+        }
+
+        let result = getTestCasesToMethod(testCases);
+
+        expect(result).toEqual({"method2":{
+            "callMethod2Scenario1": {"method2": {"input": {"value":"value1"},"output": "result value1"}},
+            "callMethod2Scenario2": {"method2": {"input": {"value":"value2"},"output": "result value2"}}}});
+    });
 })
 
