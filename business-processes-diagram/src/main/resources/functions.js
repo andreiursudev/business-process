@@ -4,27 +4,27 @@ var getKeysByPattern = function (obj, pattern) {
     }, {});
 }
 
-var getMethodsTree = function (testCases) {
-    var result = [];
-    for (let key in testCases) {
-        var testCase = testCases[key];
+var getMethodsTree = function (localTestCases) {
+    var methodsTree = [];
+    for (let key in localTestCases) {
+        var testCase = localTestCases[key];
 
         var methodExecution = testCase["methodExecution"];
         var methodExecutionName = testCase["methodExecution"]["methodName"];
-        if (!result.some(method => method['methodName'] === methodExecutionName)) {
-            result.push(methodExecution);
+        if (!methodsTree.some(method => method['methodName'] === methodExecutionName)) {
+            methodsTree.push(methodExecution);
         } else {
-            let method = result.find(method => method['methodName'] === methodExecutionName);
+            let method = methodsTree.find(method => method['methodName'] === methodExecutionName);
             method.children = method.children.concat(methodExecution.children);
         }
     }
-    return result;
+    return methodsTree;
 }
 
-var getTestCasesToMethod = function(myTestCases) {
+var getTestCasesToMethod = function(localTestCases) {
     var result = {};
-    for (let key in myTestCases) {
-        var testCase = myTestCases[key];
+    for (let key in localTestCases) {
+        var testCase = localTestCases[key];
         var executedMethodName = testCase["methodExecution"]["methodName"];
         var testCaseName = testCase["testCaseName"];
         var executedMethodInput = testCase["methodExecution"]["input"];
@@ -44,8 +44,6 @@ var getTestCasesToMethod = function(myTestCases) {
 
         testCases[testCaseName] = methods;
         result[executedMethodName] = testCases;
-
-
     }
     return result;
 }

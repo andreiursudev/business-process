@@ -103,7 +103,7 @@ $(document).ready(function(){
 
     var testCases = getKeysByPattern(window, new RegExp('testCase*'));
 
-    var methodsTree= getMethodsTree(testCases);
+    var methodsTree= getMethodsTree(JSON.parse(JSON.stringify(testCases)));
 
 
     $.each(methodsTree, function(i, node) {
@@ -134,7 +134,7 @@ $(document).ready(function(){
     });
 
 
-    var testCasesToMethod = getTestCasesToMethod(testCases);
+    var testCasesToMethod = getTestCasesToMethod(JSON.parse(JSON.stringify(testCases)));
 
     $(".method").each(function(i, method) {
         if(testCasesToMethod.hasOwnProperty($(this).prop('id'))){
