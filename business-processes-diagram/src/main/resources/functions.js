@@ -4,46 +4,69 @@ var getKeysByPattern = function (obj, pattern) {
     }, {});
 }
 
+function hasMethodAlreadyBeenAddedToTree(methodsTree, methodName) {
+    return methodsTree.some(m => m['methodName'] === methodName);
+}
+
+function findExistingMethod(methodsTree, methodName) {
+    return methodsTree.find(method => method['methodName'] === methodName);
+}
+
 var getMethodsTree = function (localTestCases) {
     var methodsTree = [];
-    for (let key in localTestCases) {
-        var testCase = localTestCases[key];
-
-        var methodExecution = testCase["methodExecution"];
-        var methodExecutionName = testCase["methodExecution"]["methodName"];
-        if (!methodsTree.some(method => method['methodName'] === methodExecutionName)) {
-            methodsTree.push(methodExecution);
+    for (const [key, testCase] of Object.entries(localTestCases)) {
+        var method = testCase["methodExecution"];
+        var methodName = method["methodName"];
+        if (!hasMethodAlreadyBeenAddedToTree(methodsTree, methodName)) {
+            methodsTree.push(method);
         } else {
-            let method = methodsTree.find(method => method['methodName'] === methodExecutionName);
-            method.children = method.children.concat(methodExecution.children);
+            let existingMethod = findExistingMethod(methodsTree, methodName);
+            existingMethod.children = existingMethod.children.concat(method.children);
         }
     }
     return methodsTree;
 }
 
-var getTestCasesToMethod = function(localTestCases) {
-    var result = {};
-    for (let key in localTestCases) {
-        var testCase = localTestCases[key];
-        var executedMethodName = testCase["methodExecution"]["methodName"];
-        var testCaseName = testCase["testCaseName"];
-        var executedMethodInput = testCase["methodExecution"]["input"];
-        var executedMethodOutput = testCase["methodExecution"]["output"];
+function getInputOutput(method) {
+    return {"input": method["input"], "output": method["output"]};
+}
 
-        let methods = {};
-        methods[executedMethodName] = {"input": executedMethodInput, "output": executedMethodOutput};
-        let testCases = {};
-        if(result.hasOwnProperty(executedMethodName)){
-            testCases = result[executedMethodName];
-        }
-
-        var methodExecutionChildren = testCase["methodExecution"]["children"];
-        for (child of methodExecutionChildren) {
-            methods[child["methodName"]] = {"input": child["input"], "output": child["output"]};
-        }
-
-        testCases[testCaseName] = methods;
-        result[executedMethodName] = testCases;
+function getInputOutputToMethods(methods) {
+    var inputOutputToMethod = {}
+    for (method of methods) {
+        inputOutputToMethod[method["methodName"]] = getInputOutput(method);
     }
-    return result;
+    return inputOutputToMethod;
+}
+
+function getInputOutputToMethodsIncludingChildren(method) {
+    return {...{[method["methodName"]]: getInputOutput(method)}, ...getInputOutputToMethods(method["children"])};
+}
+
+function doesMethodAlreadyHasATestCase(testCasesToMethod, methodName) {
+    return testCasesToMethod.hasOwnProperty(methodName);
+}
+
+function getAlreadyExistingTestCasesOrNewForMethodName(testCasesToMethod, methodName) {
+    let testCases = {};
+    if (doesMethodAlreadyHasATestCase(testCasesToMethod, methodName)) {
+        testCases = testCasesToMethod[methodName];
+    }
+    return testCases;
+}
+
+var getTestCasesToMethod = function (localTestCases) {
+    var testCasesToMethod = {};
+
+    for (const [key, testCase] of Object.entries(localTestCases)) {
+        let method = testCase["methodExecution"];
+        var methodName = method["methodName"];
+        var testCaseName = testCase["testCaseName"];
+
+        let testCases = getAlreadyExistingTestCasesOrNewForMethodName(testCasesToMethod, methodName);
+
+        testCases[testCaseName] = getInputOutputToMethodsIncludingChildren(method);
+        testCasesToMethod[methodName] = testCases;
+    }
+    return testCasesToMethod;
 }
