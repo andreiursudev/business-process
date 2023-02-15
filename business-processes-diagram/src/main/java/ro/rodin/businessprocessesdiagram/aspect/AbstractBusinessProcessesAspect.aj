@@ -1,14 +1,16 @@
 package ro.rodin.businessprocessesdiagram.aspect;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.reflect.CodeSignature;
-import ro.rodin.businessprocessesdiagram.diagram.*;
+import ro.rodin.businessprocessesdiagram.diagram.Diagram;
+import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
+import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
+import ro.rodin.businessprocessesdiagram.diagram.TestCase;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public abstract aspect AbstractBusinessProcessesAspect {
     abstract pointcut process();
@@ -29,20 +31,20 @@ public abstract aspect AbstractBusinessProcessesAspect {
         String callerMethod = thisEnclosingJoinPointStaticPart.getSignature().getName();
         MethodExecution methodExecution = new MethodExecution(methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
-        Map<TestCase, List<MethodExecution>> testCase = diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
+        TestCase testCase = diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
 
         diagram.increaseStackDepth();
 
         Object output = proceed();
         diagram.decreaseStackDepth();
 
+        ObjectMapper objectMapper = new ObjectMapper();
         methodExecution.setOutput(output);
-
         if(GlobalDiagram.getDiagram().getStackDepth() == 0) {
             try {
                 FileWriter fw = new FileWriter("diagram.txt", true);
                 BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(testCase.toString());
+                bw.write(objectMapper.writeValueAsString(testCase));
                 bw.newLine();
                 bw.close();
             } catch (IOException e) {

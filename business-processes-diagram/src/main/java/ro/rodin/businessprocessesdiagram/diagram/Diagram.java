@@ -4,28 +4,26 @@ import java.util.*;
 
 public class Diagram {
 
-    public LinkedHashMap<TestCase, List<MethodExecution>> methodExecutionsToTestCase;
+    public List<TestCase> testCases;
     private Integer stackDepth = 0;
     private TestCase currentTestCase;
 
     public Diagram() {
-        methodExecutionsToTestCase = new LinkedHashMap<>();
+        testCases = new ArrayList<>();
     }
 
-    public Map<TestCase, List<MethodExecution>> addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
+    public TestCase addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
         if (stackDepth == 0) {
-            currentTestCase = new TestCase(testCaseName);
-            methodExecutionsToTestCase.put(currentTestCase, new ArrayList<>());
-            methodExecutionsToTestCase.get(currentTestCase).add(methodExecution);
+            currentTestCase = new TestCase(testCaseName, methodExecution);
+            testCases.add(currentTestCase);
         } else {
-            List<MethodExecution> methodExecutions = methodExecutionsToTestCase.get(currentTestCase);
-            MethodExecution currentMethodExecution = methodExecutions.get(methodExecutions.size() - 1);
+            MethodExecution currentMethodExecution = currentTestCase.getMethodExecution();
             for (int i = 1; i < stackDepth; i++) {
                 currentMethodExecution = currentMethodExecution.getChildren().get(currentMethodExecution.getChildren().size() - 1);
             }
             currentMethodExecution.getChildren().add(methodExecution);
         }
-        return Map.of(currentTestCase, methodExecutionsToTestCase.get(currentTestCase));
+        return currentTestCase;
     }
 
     public void increaseStackDepth() {
@@ -40,8 +38,8 @@ public class Diagram {
         return stackDepth;
     }
 
-    public LinkedHashMap<TestCase, List<MethodExecution>> getMethodExecutionsToTestCase() {
-        return methodExecutionsToTestCase;
+    public List<TestCase> getTestCases() {
+        return testCases;
     }
 
     @Override
@@ -49,18 +47,18 @@ public class Diagram {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Diagram diagram = (Diagram) o;
-        return Objects.equals(methodExecutionsToTestCase, diagram.methodExecutionsToTestCase);
+        return Objects.equals(testCases, diagram.testCases);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(methodExecutionsToTestCase);
+        return Objects.hash(testCases);
     }
 
     @Override
     public String toString() {
         return "Diagram{" +
-                "methodExecutionToTestCase=" + methodExecutionsToTestCase +
+                "methodExecutionToTestCase=" + testCases +
                 '}';
     }
 }

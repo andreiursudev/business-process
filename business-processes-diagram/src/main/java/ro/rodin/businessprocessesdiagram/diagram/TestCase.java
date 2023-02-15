@@ -4,13 +4,19 @@ import java.util.Objects;
 
 public class TestCase {
     private String testCaseName;
+    private MethodExecution methodExecution;
 
-    public TestCase(String testCaseName) {
+    public TestCase(String testCaseName, MethodExecution methodExecution) {
         this.testCaseName = testCaseName;
+        this.methodExecution = methodExecution;
     }
 
     public String getTestCaseName() {
         return testCaseName;
+    }
+
+    public MethodExecution getMethodExecution() {
+        return methodExecution;
     }
 
     @Override
@@ -26,10 +32,4 @@ public class TestCase {
         return Objects.hash(testCaseName);
     }
 
-    @Override
-    public String toString() {
-        return "TestCase{" +
-                "testCaseName='" + testCaseName + '\'' +
-                '}';
-    }
 }

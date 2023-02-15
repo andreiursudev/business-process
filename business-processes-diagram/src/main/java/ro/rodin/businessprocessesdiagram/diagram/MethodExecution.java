@@ -30,9 +30,25 @@ public class MethodExecution {
         this.children = children;
     }
 
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public LinkedHashMap<String, Object> getInput() {
+        return input;
+    }
+
+
+    public Object getOutput() {
+        return output;
+    }
 
     public void setOutput(Object output) {
         this.output = output;
+    }
+
+    public List<MethodExecution> getChildren() {
+        return children;
     }
 
     @Override
@@ -48,17 +64,5 @@ public class MethodExecution {
         return Objects.hash(methodName, input, output, children);
     }
 
-    @Override
-    public String toString() {
-        return "MethodExecution{" +
-                "methodName='" + methodName + '\'' +
-                ", input=" + input +
-                ", output=" + output +
-                ", children=" + children +
-                '}';
-    }
 
-    public List<MethodExecution> getChildren() {
-        return children;
-    }
 }
