@@ -78,6 +78,26 @@ public class DiagramTest {
                 ), getLastTestCase());
     }
 
+    @Test
+    void testCaseWithConditionTrue() {
+        Object1 object1 = new Object1();
+
+        object1.methodWithCondition("value1");
+
+        assertEquals(new TestCase("testCaseWithConditionTrue", new MethodExecution("methodWithCondition", mapOf("param", "value1"), "value1 2",List.of())
+        ), getLastTestCase());
+    }
+
+    @Test
+    void testCaseWithConditionFalse() {
+        Object1 object1 = new Object1();
+
+        object1.methodWithCondition("value2");
+
+        assertEquals(new TestCase("testCaseWithConditionFalse", new MethodExecution("methodWithCondition", mapOf("param", "value2"), "value2 3",List.of())
+        ), getLastTestCase());
+    }
+
     private static TestCase getLastTestCase() {
         List<TestCase> testCases = GlobalDiagram.getDiagram().getTestCases();
         return testCases.get(testCases.size() - 1);

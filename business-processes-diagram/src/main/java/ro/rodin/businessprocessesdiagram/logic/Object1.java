@@ -28,4 +28,21 @@ public class Object1 {
         String s2 = object3.doSomethingElseWithObject4(param);
         return s1 +" "+ s2;
     }
+
+    public String methodWithCondition(String value) {
+        if(value.equals("value1")){
+            return object2.doSomething(value);
+        } else {
+            return object3.doSomethingElse(value);
+        }
+
+    }
+
+    public String method1(String value) {
+        return "result " + value;
+    }
+
+    public String method2(String value) {
+        return "result " + value;
+    }
 }

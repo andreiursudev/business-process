@@ -4,6 +4,8 @@
             <pointcut name="process" expression="call(* ro.rodin.businessprocessesdiagram.logic..*(..))"/>
         </concrete-aspect>
     </aspects>
-    <weaver options="-showWeaveInfo -Xlint:ignore">
+    <!--<weaver options="-showWeaveInfo -Xlint:ignore">
+    </weaver>-->
+    <weaver options="-Xlint:ignore">
     </weaver>
 </aspectj>

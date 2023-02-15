@@ -114,7 +114,11 @@ let testCasesToMethod = {
                 "Method12": {
                     "input": "myInput",
                     "output": "myOutput"
-                }
+                },
+                "Method3": {
+                    "input": "myInput",
+                    "output": "myOutput"
+                },
             }
         }
 }

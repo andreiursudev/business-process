@@ -67,7 +67,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="data.js"></script>
-<script src="testCases.js"></script>
+<script src="../../../testCases.js"></script>
+<script src="functions.js"></script>
 
 <script id="openTestCasesSelectModalButton" type="text/x-handlebars-template">
     <button id="{{id}}" type="button" class="btn btn-primary openTestCasesSelectModalButton" data-bs-toggle="modal" data-bs-target="#testCaseSelectModal">Test Cases</button>
@@ -99,6 +100,12 @@
 </script>
 <script>
 $(document).ready(function(){
+
+    var testCases = getKeysByPattern(window, new RegExp('testCase*'));
+
+    var methodsTree= getMethodsTree(testCases);
+
+
     $.each(methodsTree, function(i, node) {
         function appendToElement(element, node) {
             let table = $('<table>');
@@ -125,6 +132,9 @@ $(document).ready(function(){
         }
         appendTo($('#content'), node);
     });
+
+
+    var testCasesToMethod = getTestCasesToMethod(testCase);
 
     $(".method").each(function(i, method) {
         if(testCasesToMethod.hasOwnProperty($(this).prop('id'))){
@@ -160,7 +170,7 @@ $(document).ready(function(){
     function displayInputAndOutput(option) {
         selectedMethodTestCaseId = option;
         var methodExecution = selectedMethodTestCases[selectedMethodTestCaseId][selectedMethodId];
-        $("#input").html(methodExecution.input);
+        $("#input").html(JSON.stringify(methodExecution.input));
         $("#output").html(methodExecution.output);
     }
 

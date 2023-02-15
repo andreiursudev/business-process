@@ -1,19 +1,12 @@
 package ro.rodin.businessprocessesdiagram.aspect;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
-import ro.rodin.businessprocessesdiagram.diagram.Diagram;
-import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
-import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
-import ro.rodin.businessprocessesdiagram.diagram.TestCase;
+import ro.rodin.businessprocessesdiagram.diagram.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 
 @Aspect
@@ -48,18 +41,7 @@ public abstract class AbstractBusinessProcessesAspect {
 
         methodExecution.setOutput(output);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
-            try {
-                FileWriter fw = new FileWriter("diagram.txt", true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(objectMapper.writeValueAsString(testCase));
-                bw.newLine();
-                bw.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        TestCasePrinter.print(testCase);
 
         return output;
     }
