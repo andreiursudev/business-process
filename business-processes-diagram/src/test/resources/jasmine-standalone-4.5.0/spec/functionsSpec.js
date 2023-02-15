@@ -38,6 +38,17 @@ describe('getMethodsTree', function() {
         expect(result).toEqual([{ methodName: 'Object2_method1', children: [{"methodName":"Object2_method2", "children":[]}  ] }]);
     });
 
+    it('should return two method given conditional method calls', function() {
+        var testCases = {
+            testCase6 : {"testCaseName":"conditionalMethodCallTrue","methodExecution":{"methodName":"Object3_method1","children":[{"methodName":"Object3_method2","children":[]}]}},
+            testCase7 : {"testCaseName":"conditionalMethodCallFalse","methodExecution":{"methodName":"Object3_method1","children":[{"methodName":"Object3_method3","children":[]}]}}
+        };
+
+        let result = getMethodsTree(testCases);
+
+        expect(result).toEqual([{ methodName: 'Object3_method1', children: [{"methodName":"Object3_method2", "children":[]}, {"methodName":"Object3_method3", "children":[]}   ] }]);
+    });
+
 })
 
 describe('getTestCasesToMethod', function() {
@@ -76,6 +87,27 @@ describe('getTestCasesToMethod', function() {
                     "Object2_method2": {"input": {"value":"value1 1"},"output": "value1 1 2"}}}
 
         }
+        );
+    });
+
+    it('should return two test cases given conditional method calls', function() {
+        var testCases = {
+            testCase6 : {"testCaseName":"conditionalMethodCallTrue","methodExecution":{"methodName":"Object3_method1","input":{"value":"valueTrue"},"output":"2 valueTrue","children":[{"methodName":"Object3_method2","input":{"value":"valueTrue"},"output":"2 valueTrue","children":[]}]}},
+            testCase7 : {"testCaseName":"conditionalMethodCallFalse","methodExecution":{"methodName":"Object3_method1","input":{"value":"valueFalse"},"output":"3 valueFalse","children":[{"methodName":"Object3_method3","input":{"value":"valueFalse"},"output":"3 valueFalse","children":[]}]}}
+        };
+
+        let result = getTestCasesToMethod(testCases);
+
+        expect(result).toEqual({"Object3_method1":{
+                    "conditionalMethodCallTrue": {
+                        "Object3_method1": {"input": {"value":"valueTrue"},"output": "2 valueTrue"},
+                        "Object3_method2": {"input": {"value":"valueTrue"},"output": "2 valueTrue"}
+                    },
+                    "conditionalMethodCallFalse": {
+                        "Object3_method1": {"input": {"value":"valueFalse"},"output": "3 valueFalse"},
+                        "Object3_method3": {"input": {"value":"valueFalse"},"output": "3 valueFalse"}
+                    }
+            }}
         );
     });
 })

@@ -13,6 +13,9 @@ var getMethodsTree = function (testCases) {
         var methodExecutionName = testCase["methodExecution"]["methodName"];
         if (!result.some(method => method['methodName'] === methodExecutionName)) {
             result.push(methodExecution);
+        } else {
+            let method = result.find(method => method['methodName'] === methodExecutionName);
+            method.children = method.children.concat(methodExecution.children);
         }
     }
     return result;
@@ -33,13 +36,15 @@ var getTestCasesToMethod = function(myTestCases) {
         if(result.hasOwnProperty(executedMethodName)){
             testCases = result[executedMethodName];
         }
-        testCases[testCaseName] = methods;
-        result[executedMethodName] = testCases;
 
         var methodExecutionChildren = testCase["methodExecution"]["children"];
         for (child of methodExecutionChildren) {
             methods[child["methodName"]] = {"input": child["input"], "output": child["output"]};
         }
+
+        testCases[testCaseName] = methods;
+        result[executedMethodName] = testCases;
+
 
     }
     return result;
