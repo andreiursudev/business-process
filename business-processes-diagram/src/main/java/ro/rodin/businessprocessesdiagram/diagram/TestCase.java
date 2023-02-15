@@ -32,4 +32,11 @@ public class TestCase {
         return Objects.hash(testCaseName);
     }
 
+    @Override
+    public String toString() {
+        return "TestCase{" +
+                "testCaseName='" + testCaseName + '\'' +
+                ", methodExecution=" + methodExecution +
+                '}';
+    }
 }

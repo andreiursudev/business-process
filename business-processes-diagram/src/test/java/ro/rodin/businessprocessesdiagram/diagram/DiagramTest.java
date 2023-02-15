@@ -6,12 +6,9 @@ import ro.rodin.businessprocessesdiagram.logic.Object1;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsIterableContaining.hasItems;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DiagramTest {
-
-    private static final List<TestCase> testCases = GlobalDiagram.getDiagram().getTestCases();
 
     @Test
     void simpleTestCase() {
@@ -19,11 +16,11 @@ public class DiagramTest {
 
         object1.simpleMethod("value");
 
-        assertThat(testCases, hasItems(
-                new TestCase("simpleTestCase", new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1"))
-        ));
+        assertEquals(new TestCase("simpleTestCase", new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1")), getLastTestCase());
 
     }
+
+
 
     @Test
     void simpleTestCaseInSeparateTestCase() {
@@ -31,9 +28,7 @@ public class DiagramTest {
 
         object1.simpleMethod("otherValue");
 
-        assertThat(testCases, hasItems(
-                new TestCase("simpleTestCaseInSeparateTestCase",new MethodExecution("simpleMethod", mapOf("param", "otherValue"), "otherValue 1"))
-        ));
+        assertEquals(new TestCase("simpleTestCaseInSeparateTestCase",new MethodExecution("simpleMethod", mapOf("param", "otherValue"), "otherValue 1")), getLastTestCase());
     }
 
 
@@ -43,11 +38,9 @@ public class DiagramTest {
 
         object1.methodWithInnerCall("value");
 
-        assertThat(testCases, hasItems(
-                new TestCase("testCaseWithInnerMethodCallInSameClass",
+        assertEquals(new TestCase("testCaseWithInnerMethodCallInSameClass",
                 new MethodExecution("methodWithInnerCall", mapOf("param", "value"), "value 1 1",
-                        List.of(new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1")))
-                )));
+                        List.of(new MethodExecution("simpleMethod", mapOf("param", "value"), "value 1")))), getLastTestCase());
     }
 
    @Test
@@ -56,10 +49,9 @@ public class DiagramTest {
 
         object1.methodWithDifferentObjectInnerCall("value");
 
-       assertThat(testCases, hasItems(
-               new TestCase("testCaseWithInnerMethodCallInDifferentClass",new MethodExecution("methodWithDifferentObjectInnerCall", mapOf("param", "value"), "value 2 1",
+       assertEquals(new TestCase("testCaseWithInnerMethodCallInDifferentClass",new MethodExecution("methodWithDifferentObjectInnerCall", mapOf("param", "value"), "value 2 1",
                         List.of(new MethodExecution("doSomething", mapOf("param", "value"), "value 2")))
-                )));
+                ), getLastTestCase());
     }
 
     @Test
@@ -68,10 +60,9 @@ public class DiagramTest {
 
         object1.methodWithDifferentObjectsInnerCall("value");
 
-        assertThat(testCases, hasItems(
-                new TestCase("testCaseWithMultipleInnerMethodCallsInDifferentClass", new MethodExecution("methodWithDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 3", List.of(
+        assertEquals(new TestCase("testCaseWithMultipleInnerMethodCallsInDifferentClass", new MethodExecution("methodWithDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 3", List.of(
                         new MethodExecution("doSomething", mapOf("param", "value"), "value 2"),
-                        new MethodExecution("doSomethingElse", mapOf("param", "value"), "value 3"))))));
+                        new MethodExecution("doSomethingElse", mapOf("param", "value"), "value 3")))), getLastTestCase());
     }
 
     @Test
@@ -80,12 +71,16 @@ public class DiagramTest {
 
         object1.methodWithMoreDepthDifferentObjectsInnerCall("value");
 
-        assertThat(testCases, hasItems(
-                new TestCase("testCaseWithMoreDepthMethodCallsInDifferentClass", new MethodExecution("methodWithMoreDepthDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 4 3",List.of(
+        assertEquals(new TestCase("testCaseWithMoreDepthMethodCallsInDifferentClass", new MethodExecution("methodWithMoreDepthDifferentObjectsInnerCall", mapOf("param", "value"), "value 2 value 4 3",List.of(
                         new MethodExecution("doSomething", mapOf("param", "value"), "value 2"),
                         new MethodExecution("doSomethingElseWithObject4", mapOf("param", "value"), "value 4 3",
                                 List.of(new MethodExecution("doSomethingNew", mapOf("param", "value"), "value 4")))))
-                )));
+                ), getLastTestCase());
+    }
+
+    private static TestCase getLastTestCase() {
+        List<TestCase> testCases = GlobalDiagram.getDiagram().getTestCases();
+        return testCases.get(testCases.size() - 1);
     }
 
     private LinkedHashMap<String, Object> mapOf(String key, String value) {

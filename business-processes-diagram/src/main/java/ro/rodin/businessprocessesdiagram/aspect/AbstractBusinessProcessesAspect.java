@@ -1,6 +1,10 @@
 package ro.rodin.businessprocessesdiagram.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import ro.rodin.businessprocessesdiagram.diagram.Diagram;
 import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
@@ -12,12 +16,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-public abstract aspect AbstractBusinessProcessesAspect {
-    abstract pointcut process();
+@Aspect
+public abstract class AbstractBusinessProcessesAspect {
 
-    Object around(): process(){
-        CodeSignature signature = (CodeSignature) thisJoinPointStaticPart.getSignature();
-        Object[] args = thisJoinPoint.getArgs();
+    @Pointcut
+    abstract void process();
+
+    @Around("process()")
+    public Object around(ProceedingJoinPoint proceedingJoinPoint, ProceedingJoinPoint.EnclosingStaticPart thisEnclosingJoinPointStaticPart) throws Throwable {
+        CodeSignature signature = (CodeSignature) proceedingJoinPoint.getSignature();
+        Object[] args = proceedingJoinPoint.getArgs();
 
         LinkedHashMap<String, Object> input = WorldHelper.getInput(signature.getParameterNames(), args);
         String packageName = signature.getDeclaringType().getPackageName();
@@ -35,12 +43,13 @@ public abstract aspect AbstractBusinessProcessesAspect {
 
         diagram.increaseStackDepth();
 
-        Object output = proceed();
+        Object output = proceedingJoinPoint.proceed();
         diagram.decreaseStackDepth();
 
-        ObjectMapper objectMapper = new ObjectMapper();
         methodExecution.setOutput(output);
-        if(GlobalDiagram.getDiagram().getStackDepth() == 0) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
             try {
                 FileWriter fw = new FileWriter("diagram.txt", true);
                 BufferedWriter bw = new BufferedWriter(fw);
