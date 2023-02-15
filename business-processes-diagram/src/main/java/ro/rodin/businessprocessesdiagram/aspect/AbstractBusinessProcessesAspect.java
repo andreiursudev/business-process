@@ -30,7 +30,7 @@ public abstract class AbstractBusinessProcessesAspect {
         System.out.println("className =" + className);
         System.out.println("methodName =" + methodName);
         String callerMethod = thisEnclosingJoinPointStaticPart.getSignature().getName();
-        MethodExecution methodExecution = new MethodExecution(methodName, input);
+        MethodExecution methodExecution = new MethodExecution(className + "_" + methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
         TestCase testCase = diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
 

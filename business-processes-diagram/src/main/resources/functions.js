@@ -12,7 +12,7 @@ var getMethodsTree = function (testCases) {
         var methodExecution = testCase["methodExecution"];
         var methodExecutionName = testCase["methodExecution"]["methodName"];
         if (!result.some(method => method['methodName'] === methodExecutionName)) {
-            result.push(getKeysByPattern(methodExecution, new RegExp('methodName|children')));
+            result.push(methodExecution);
         }
     }
     return result;
@@ -35,6 +35,12 @@ var getTestCasesToMethod = function(myTestCases) {
         }
         testCases[testCaseName] = methods;
         result[executedMethodName] = testCases;
+
+        var methodExecutionChildren = testCase["methodExecution"]["children"];
+        for (child of methodExecutionChildren) {
+            methods[child["methodName"]] = {"input": child["input"], "output": child["output"]};
+        }
+
     }
     return result;
 }

@@ -188,7 +188,7 @@ $(document).ready(function(){
             let selector = "#"+methodExecution+".method";
             $(selector).addClass("selected");
             let inputOutput = selectedMethodTestCases[selectedMethodTestCaseId][methodExecution];
-            let content = Handlebars.compile($('#inputOutputToolTip').html())({input: inputOutput.input, output: inputOutput.output});
+            let content = Handlebars.compile($('#inputOutputToolTip').html())({input: JSON.stringify(inputOutput.input), output: inputOutput.output});
             let instances = tippy(selector, {
                 placement: 'bottom',
                 content: content,
