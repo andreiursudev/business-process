@@ -101,6 +101,23 @@ describe('getMethodsTree', function() {
         expect(result).toEqual([{ methodName: 'Object4_method1', children: [{"methodName":"Object4_method2", children:[{"methodName":"Object4_method3","children":[]}]}  ] }]);
     });
 
+    it('methodCallsInnerConditionMethod', function() {
+        var testCases = {
+            testCase11 : {"testCaseName":"methodCallsInnerConditionMethodScenario1","methodExecution":{"methodName":"Object5_method1","children":[{"methodName":"Object5_method2","children":[{"methodName":"Object5_method3","children":[]}]}]}},
+            testCase12 : {"testCaseName":"methodCallsInnerConditionMethodScenario2","methodExecution":{"methodName":"Object5_method1","children":[{"methodName":"Object5_method2","children":[{"methodName":"Object5_method4","children":[]}]}]}},
+            testCase13 : {"testCaseName":"methodCallsInnerConditionMethodScenario3","methodExecution":{"methodName":"Object5_method1","children":[{"methodName":"Object5_method5","children":[{"methodName":"Object5_method6","children":[]}]}]}},
+            testCase14 : {"testCaseName":"methodCallsInnerConditionMethodScenario4","methodExecution":{"methodName":"Object5_method1","children":[{"methodName":"Object5_method5","children":[{"methodName":"Object5_method7","children":[]}]}]}}
+        };
+
+        let result = getMethodsTree(testCases);
+
+        expect(result).toEqual([{
+            methodName: 'Object5_method1',
+            children: [{"methodName": "Object5_method2", children: [{"methodName": "Object5_method3", "children": []}, {"methodName": "Object5_method4", "children": []}]
+                    }, {"methodName": "Object5_method5", children: [{"methodName": "Object5_method6", "children": []}, {"methodName": "Object5_method7", "children": []}]}]
+        }]);
+    });
+
 })
 
 describe('getTestCasesToMethod', function() {
