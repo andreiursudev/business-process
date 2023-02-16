@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DataTest {
@@ -205,6 +207,24 @@ public class DataTest {
         Object7 object7 = new Object7();
         String value = object7.method3("value");
         assertEquals("value 1  2  2 ", value);
+    }
+
+    @Test
+    @Order(25)
+    void injectObjectScenario1() {
+        Object8 object8 = new Object8(new Object9());
+        String value = object8.method1("value");
+        assertEquals("value 1  2 ", value);
+    }
+
+    @Test
+    @Order(26)
+    void injectMockScenario2() {
+        Object9 mock = mock(Object9.class);
+        when(mock.method2()).thenReturn(" 3 ");
+        Object8 object8 = new Object8(mock);
+        String value = object8.method1("value");
+        assertEquals("value 1  3 ", value);
     }
 
 
