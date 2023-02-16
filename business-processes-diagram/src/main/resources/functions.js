@@ -16,15 +16,15 @@ function getUniqueListBy(arr, key) {
     return [...new Map(arr.map(item => [item[key], item])).values()]
 }
 
-function extracted(method, existingMethod) {
-    if (method.children.length > 0) {
-        for (innerMethod of method.children) {
+function flatMethodsToTreeStructure(methods, existingMethods) {
+    if (methods.length > 0) {
+        for (innerMethod of methods) {
             let innerMethodName = innerMethod["methodName"];
-            if (!hasMethodAlreadyBeenAddedToArray(existingMethod.children, innerMethodName)) {
-                existingMethod.children.push(innerMethod);
+            if (!hasMethodAlreadyBeenAddedToArray(existingMethods, innerMethodName)) {
+                existingMethods.push(innerMethod);
             } else {
-                let innerExistingMethod = findExistingMethod(existingMethod.children, innerMethodName);
-                extracted(innerMethod, innerExistingMethod);
+                let innerExistingMethod = findExistingMethod(existingMethods, innerMethodName);
+                flatMethodsToTreeStructure(innerMethod.children, innerExistingMethod.children);
             }
         }
     }
@@ -32,16 +32,11 @@ function extracted(method, existingMethod) {
 
 var getMethodsTree = function (localTestCases) {
     var methodsTree = [];
+    var methods = [];
     for (const [key, testCase] of Object.entries(localTestCases)) {
-        var method = testCase["methodExecution"];
-        var methodName = method["methodName"];
-        if (!hasMethodAlreadyBeenAddedToArray(methodsTree, methodName)) {
-            methodsTree.push(method);
-        } else {
-            let existingMethod = findExistingMethod(methodsTree, methodName);
-            extracted(method, existingMethod);
-        }
+        methods.push(testCase["methodExecution"])
     }
+    flatMethodsToTreeStructure(methods, methodsTree);
     return methodsTree;
 }
 
