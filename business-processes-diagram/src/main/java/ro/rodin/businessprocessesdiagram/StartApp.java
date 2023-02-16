@@ -1,13 +1,11 @@
 package ro.rodin.businessprocessesdiagram;
 
-import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
-import ro.rodin.businessprocessesdiagram.logic.Object1;
+import ro.rodin.businessprocessesdiagram.logic.Object6;
 
 public class StartApp {
     public static void main(String[] args) {
-        Object1 methods = new Object1();
-        String result = methods.simpleMethod("Andrei");
-        System.out.println("result= " + result);
-        System.out.println(GlobalDiagram.getDiagram());
+        Object6 object6 = new Object6();
+        String value = object6.method1("false false");
+        System.out.println(value);
     }
 }

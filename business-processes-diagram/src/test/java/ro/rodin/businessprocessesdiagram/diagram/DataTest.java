@@ -98,17 +98,64 @@ public class DataTest {
 
     @Test
     @Order(11)
-    void complexMethodCallScenario1() {
+    void methodCallsInnerConditionMethodScenario1() {
         Object5 object5 = new Object5();
-        String value = object5.method1("valueTrue");
-        assertEquals("valueTrue 1 valueTrue 2 valueTrue 3 valueTrue 4 valueTrue 7 valueTrue 71 valueTrue 72 valueTrue 73 valueTrue 74 valueTrue 75 valueTrue 77 valueTrue 6 ", value);
+        String value = object5.method1("true true");
+        assertEquals("true true 1 true true 2 true true 3 ", value);
     }
 
     @Test
     @Order(12)
-    void complexMethodCallScenario2() {
+    void methodCallsInnerConditionMethodScenario2() {
         Object5 object5 = new Object5();
-        String value = object5.method1("valueFalse");
-        assertEquals("valueFalse 1 valueFalse 2 valueFalse 3 valueFalse 5 valueFalse 8 valueFalse 81 valueFalse 811 valueFalse 812 valueFalse 813 valueFalse 82 valueFalse 821 valueFalse 822 valueFalse 823 valueFalse 6 ", value);
+        String value = object5.method1("true false");
+        assertEquals("true false 1 true false 2 true false 4 ", value);
+    }
+
+    @Test
+    @Order(13)
+    void methodCallsInnerConditionMethodScenario3() {
+        Object5 object5 = new Object5();
+        String value = object5.method1("false true");
+        assertEquals("false true 1 false true 5 false true 6 ", value);
+    }
+
+    @Test
+    @Order(14)
+    void methodCallsInnerConditionMethodScenario4() {
+        Object5 object5 = new Object5();
+        String value = object5.method1("false false");
+        assertEquals("false false 1 false false 5 false false 7 ", value);
+    }
+
+    @Test
+    @Order(91)
+    void complexMethodCallScenario1() {
+        Object6 object6 = new Object6();
+        String value = object6.method1("true true");
+        assertEquals("true true 1 true true 2 true true 3 true true 4 true true 7 true true 71 true true 72 true true 73 true true 74 true true 75 true true 77 true true 6 ", value);
+    }
+
+    @Test
+    @Order(92)
+    void complexMethodCallScenario2() {
+        Object6 object6 = new Object6();
+        String value = object6.method1("true false");
+        assertEquals("true false 1 true false 2 true false 3 true false 4 true false 7 true false 71 true false 72 true false 73 true false 74 true false 76 true false 77 true false 6 ", value);
+    }
+
+    @Test
+    @Order(93)
+    void complexMethodCallScenario3() {
+        Object6 object6 = new Object6();
+        String value = object6.method1("false true");
+        assertEquals("false true 1 false true 2 false true 3 false true 5 false true 8 false true 81 false true 811 false true 812 false true 82 false true 821 false true 822 false true 8221 false true 8222 false true 8223 false true 8225 false true 823 false true 6 ", value);
+    }
+    @Test
+    @Order(94)
+    void complexMethodCallScenario4() {
+        Object6 object6 = new Object6();
+        String value = object6.method1("false false");
+        assertEquals("false false 1 false false 2 false false 3 false false 5 false false 8 false false 81 false false 811 false false 812 false false 813 false false 82 false false 821 false false 822 false false 8221 false false 8222 false false 8224 false false 8225 false false 823 false false 6 ", value);
     }
 }
