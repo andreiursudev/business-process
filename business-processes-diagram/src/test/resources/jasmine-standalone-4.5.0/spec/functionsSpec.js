@@ -118,6 +118,35 @@ describe('getMethodsTree', function() {
         }]);
     });
 
+    it('methodCallsTwiceInnerConditionMethod', function() {
+        var testCases = {
+            testCase15: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario1","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method11","children":[{"methodName":"Object6_method111","children":[{"methodName":"Object6_method1111","children":[]}]}]}]}},
+            testCase16: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario2","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method11","children":[{"methodName":"Object6_method111","children":[{"methodName":"Object6_method1112","children":[]}]}]}]}},
+            testCase17: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario3","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method11","children":[{"methodName":"Object6_method112","children":[{"methodName":"Object6_method1121","children":[]}]}]}]}},
+            testCase18: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario4","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method11","children":[{"methodName":"Object6_method112","children":[{"methodName":"Object6_method1122","children":[]}]}]}]}},
+            testCase19: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario5","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method12","children":[{"methodName":"Object6_method121","children":[{"methodName":"Object6_method1211","children":[]}]}]}]}},
+            testCase20: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario6","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method12","children":[{"methodName":"Object6_method121","children":[{"methodName":"Object6_method1212","children":[]}]}]}]}},
+            testCase21: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario7","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method12","children":[{"methodName":"Object6_method122","children":[{"methodName":"Object6_method1221","children":[]}]}]}]}},
+            testCase22: {"testCaseName":"methodCallsTwiceInnerConditionMethodScenario8","methodExecution":{"methodName":"Object6_method1","children":[{"methodName":"Object6_method12","children":[{"methodName":"Object6_method122","children":[{"methodName":"Object6_method1222","children":[]}]}]}]}}
+        };
+
+        let result = getMethodsTree(testCases);
+
+        expect(result).toEqual([{
+            methodName: 'Object6_method1',
+            children: [{"methodName": "Object6_method11",
+                children: [{"methodName": "Object6_method111",
+                    children: [{"methodName": "Object6_method1111", "children": []}, {"methodName": "Object6_method1112", "children": []}]},
+                           {"methodName": "Object6_method112",
+                    children: [{"methodName": "Object6_method1121", "children": []}, {"methodName": "Object6_method1122", "children": []}]}]},
+                        {"methodName": "Object6_method12",
+                children: [{"methodName": "Object6_method121",
+                    children: [{"methodName": "Object6_method1211", "children": []}, {"methodName": "Object6_method1212", "children": []}]},
+                           {"methodName": "Object6_method122",
+                        children: [{"methodName": "Object6_method1221", "children": []}, {"methodName": "Object6_method1222", "children": []}]}]}]
+        }]);
+    });
+
 })
 
 describe('getTestCasesToMethod', function() {

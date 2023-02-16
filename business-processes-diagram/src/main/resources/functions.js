@@ -16,6 +16,20 @@ function getUniqueListBy(arr, key) {
     return [...new Map(arr.map(item => [item[key], item])).values()]
 }
 
+function extracted(method, existingMethod) {
+    if (method.children.length > 0) {
+        for (innerMethod of method.children) {
+            let innerMethodName = innerMethod["methodName"];
+            if (!hasMethodAlreadyBeenAddedToArray(existingMethod.children, innerMethodName)) {
+                existingMethod.children.push(innerMethod);
+            } else {
+                let innerExistingMethod = findExistingMethod(existingMethod.children, innerMethodName);
+                extracted(innerMethod, innerExistingMethod);
+            }
+        }
+    }
+}
+
 var getMethodsTree = function (localTestCases) {
     var methodsTree = [];
     for (const [key, testCase] of Object.entries(localTestCases)) {
@@ -25,19 +39,7 @@ var getMethodsTree = function (localTestCases) {
             methodsTree.push(method);
         } else {
             let existingMethod = findExistingMethod(methodsTree, methodName);
-            if(method.children.length >0){
-                for (innerMethod of method.children) {
-                    let innerMethodName = innerMethod["methodName"];
-                    if (!hasMethodAlreadyBeenAddedToArray(existingMethod.children, innerMethodName)) {
-                        existingMethod.children.push(innerMethod);
-                    }else {
-                        let innerExistingMethod = findExistingMethod(existingMethod.children, innerMethodName);
-                        innerExistingMethod.children = getUniqueListBy(innerExistingMethod.children.concat(innerMethod.children), "methodName");
-                    }
-                }
-
-            }
-            //existingMethod.children = getUniqueListBy(existingMethod.children.concat(method.children), "methodName");
+            extracted(method, existingMethod);
         }
     }
     return methodsTree;
