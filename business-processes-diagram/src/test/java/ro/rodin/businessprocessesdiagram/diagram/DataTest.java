@@ -1,9 +1,7 @@
 package ro.rodin.businessprocessesdiagram.diagram;
 
 import org.junit.jupiter.api.*;
-import ro.rodin.businessprocessesdiagram.logic.Object1;
-import ro.rodin.businessprocessesdiagram.logic.Object2;
-import ro.rodin.businessprocessesdiagram.logic.Object3;
+import ro.rodin.businessprocessesdiagram.logic.*;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -88,5 +86,29 @@ public class DataTest {
         Object3 object3 = new Object3();
         String value = object3.method1("valueFalse");
         assertEquals("valueFalse 1 valueFalse 3 ", value);
+    }
+
+    @Test
+    @Order(10)
+    void methodCallsInnerMethod() {
+        Object4 object4 = new Object4();
+        String value = object4.method1("value1");
+        assertEquals("value1 1 value1 2 value1 3 ", value);
+    }
+
+    @Test
+    @Order(11)
+    void complexMethodCallScenario1() {
+        Object5 object5 = new Object5();
+        String value = object5.method1("valueTrue");
+        assertEquals("valueTrue 1 valueTrue 2 valueTrue 3 valueTrue 4 valueTrue 7 valueTrue 71 valueTrue 72 valueTrue 73 valueTrue 74 valueTrue 75 valueTrue 77 valueTrue 6 ", value);
+    }
+
+    @Test
+    @Order(12)
+    void complexMethodCallScenario2() {
+        Object5 object5 = new Object5();
+        String value = object5.method1("valueFalse");
+        assertEquals("valueFalse 1 valueFalse 2 valueFalse 3 valueFalse 5 valueFalse 8 valueFalse 81 valueFalse 811 valueFalse 812 valueFalse 813 valueFalse 82 valueFalse 821 valueFalse 822 valueFalse 823 valueFalse 6 ", value);
     }
 }

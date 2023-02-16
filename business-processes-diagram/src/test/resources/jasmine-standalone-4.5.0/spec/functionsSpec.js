@@ -91,6 +91,16 @@ describe('getMethodsTree', function() {
         expect(result).toEqual([{ methodName: 'Object3_method1', children: [{"methodName":"Object3_method2", "children":[]}, {"methodName":"Object3_method3", "children":[]}   ] }]);
     });
 
+    it('methodCallsInnerMethod', function() {
+        var testCases = {
+            testCase10 : {"testCaseName":"methodCallsInnerMethod","methodExecution":{"methodName":"Object4_method1","children":[{"methodName":"Object4_method2","children":[{"methodName":"Object4_method3","children":[]}]}]}}
+        };
+
+        let result = getMethodsTree(testCases);
+
+        expect(result).toEqual([{ methodName: 'Object4_method1', children: [{"methodName":"Object4_method2", children:[{"methodName":"Object4_method3","children":[]}]}  ] }]);
+    });
+
 })
 
 describe('getTestCasesToMethod', function() {
@@ -224,6 +234,22 @@ describe('getTestCasesToMethod', function() {
                     }
             }}
         );
+    });
+
+    it('methodCallsInnerMethod', function() {
+        var testCases = {
+            testCase10 : {"testCaseName":"methodCallsInnerMethod","methodExecution":{"methodName":"Object4_method1","input":{"value":"value1"},"output":"value1 1 value1 2 value1 3 ","children":[{"methodName":"Object4_method2","input":{"value":"value1"},"output":"value1 2 value1 3 ","children":[{"methodName":"Object4_method3","input":{"value":"value1"},"output":"value1 3 ","children":[]}]}]}}
+        };
+
+        let result = getTestCasesToMethod(testCases);
+
+        expect(result).toEqual({"Object4_method1":{
+                "methodCallsInnerMethod": {
+                    "Object4_method1": {"input": {"value":"value1"},"output": "value1 1 value1 2 value1 3 "},
+                    "Object4_method2": {"input": {"value":"value1"},"output": "value1 2 value1 3 "},
+                    "Object4_method3": {"input": {"value":"value1"},"output": "value1 3 "}
+                }
+            }});
     });
 })
 

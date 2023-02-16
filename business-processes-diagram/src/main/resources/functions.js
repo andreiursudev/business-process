@@ -25,7 +25,7 @@ var getMethodsTree = function (localTestCases) {
             methodsTree.push(method);
         } else {
             let existingMethod = findExistingMethod(methodsTree, methodName);
-            existingMethod.children = getUniqueListBy(existingMethod.children.concat(method.children),"methodName");
+            existingMethod.children = getUniqueListBy(existingMethod.children.concat(method.children), "methodName");
         }
     }
     return methodsTree;
@@ -39,6 +39,9 @@ function getInputOutputToMethods(methods) {
     var inputOutputToMethod = {}
     for (method of methods) {
         inputOutputToMethod[method["methodName"]] = getInputOutput(method);
+        if (method["children"].length > 0) {
+            inputOutputToMethod = {...inputOutputToMethod, ...getInputOutputToMethods(method["children"])};
+        }
     }
     return inputOutputToMethod;
 }
