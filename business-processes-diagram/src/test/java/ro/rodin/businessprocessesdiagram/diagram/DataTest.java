@@ -192,6 +192,24 @@ public class DataTest {
     }
 
     @Test
+    @Order(23)
+    void sameMethodCallScenario1() {
+        Object7 object7 = new Object7();
+        String value = object7.method1("value");
+        assertEquals("value 1  2  2 ", value);
+    }
+
+    @Test
+    @Order(24)
+    void sameMethodCallScenario2() {
+        Object7 object7 = new Object7();
+        String value = object7.method3("value");
+        assertEquals("value 1  2  2 ", value);
+    }
+
+
+
+    @Test
     @Order(91)
     void complexMethodCallScenario1() {
         Object99 object99 = new Object99();
