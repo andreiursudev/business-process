@@ -17,7 +17,7 @@ public class TestCasePrinter {
             try {
                 FileWriter fw = new FileWriter("testCases.js", true);
                 BufferedWriter bw = new BufferedWriter(fw);
-                bw.write("var testCase" + numberOfTestCases++ + " = " +objectMapper.writeValueAsString(testCase));
+                bw.write("var testCase" + ++numberOfTestCases + " = " +objectMapper.writeValueAsString(testCase));
                 bw.newLine();
                 bw.close();
             } catch (IOException e) {

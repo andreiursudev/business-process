@@ -12,6 +12,10 @@ function findExistingMethod(methodsTree, methodName) {
     return methodsTree.find(method => method['methodName'] === methodName);
 }
 
+function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
+}
+
 var getMethodsTree = function (localTestCases) {
     var methodsTree = [];
     for (const [key, testCase] of Object.entries(localTestCases)) {
@@ -21,7 +25,7 @@ var getMethodsTree = function (localTestCases) {
             methodsTree.push(method);
         } else {
             let existingMethod = findExistingMethod(methodsTree, methodName);
-            existingMethod.children = existingMethod.children.concat(method.children);
+            existingMethod.children = getUniqueListBy(existingMethod.children.concat(method.children),"methodName");
         }
     }
     return methodsTree;

@@ -39,10 +39,10 @@ public class Object1 {
     }
 
     public String method1(String value) {
-        return "result " + value;
+        return value + " 1 ";
     }
 
     public String method2(String value) {
-        return "result " + value;
+        return value + " 2 ";
     }
 }

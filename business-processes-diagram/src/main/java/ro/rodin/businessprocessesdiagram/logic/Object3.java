@@ -14,18 +14,18 @@ public class Object3 {
 
     public String method1(String value) {
         if (value.equals("valueTrue")) {
-            return method2(value);
+            return value + " 1 " + method2(value);
         }
-        return method3(value);
+        return value + " 1 " + method3(value);
 
 
     }
-
-    private String method3(String value) {
-        return "3 "+ value;
-    }
-
     private String method2(String value) {
-        return "2 " + value;
+        return value + " 2 ";
     }
+    private String method3(String value) {
+        return value + " 3 ";
+    }
+
+
 }
