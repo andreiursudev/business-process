@@ -1,6 +1,6 @@
 package ro.rodin.businessprocessesdiagram.logic;
 
-public class Object6 {
+public class Object99 {
     public String method1(String value) {
         String result = value + " 1 ";
         result += method2(value);
