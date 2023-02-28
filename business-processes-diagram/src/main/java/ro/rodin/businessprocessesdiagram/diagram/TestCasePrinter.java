@@ -13,6 +13,7 @@ public class TestCasePrinter {
     public static void print(TestCase testCase) {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
         if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
             try {
                 FileWriter fw = new FileWriter("testCases.js", true);
