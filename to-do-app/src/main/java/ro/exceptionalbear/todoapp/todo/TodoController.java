@@ -42,8 +42,8 @@ public class TodoController {
 	}
 
 	@PostMapping("/users/{username}/todos")
-	public Todo createTodo(@PathVariable String username,
-			 @RequestBody Todo todo) {
+	public Todo createTodoPost(@PathVariable String username,
+							   @RequestBody Todo todo) {
 		todo.setUsername(username);
 		todo.setId(null);
 

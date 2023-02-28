@@ -7,8 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.exceptionalbear.todoapp.todo.repository.TodoRepository;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,8 +23,8 @@ class TodoServiceTest {
 
     @Test
     void save() {
-        Todo expected = new Todo();
-        when(repository.save(any())).thenReturn(expected);
+        Todo expected = new Todo(1,"Andrei","first todo", LocalDate.of(2021,1,20), true);
+        when(repository.save(expected)).thenReturn(expected);
         Todo result = service.save(expected);
 
         assertEquals(expected, result);

@@ -7,7 +7,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.mock;
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,8 +22,9 @@ class TodoControllerTest {
     private TodoService service;
 
     @Test
-    public void createTodo() throws Exception {
-        when(service.save(mock(Todo.class))).thenReturn(new Todo());
+    public void createTodoTest() throws Exception {
+        Todo todo = new Todo(1, "Andrei", "first todo", LocalDate.of(2021, 1, 20), true);
+        when(service.save(todo)).thenReturn(todo);
         this.mockMvc.perform(post("/users/andrei/todos").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"username" : "andrei",
