@@ -67,7 +67,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="data.js"></script>
-<script src="../../../testCases.js"></script>
+<script src="testCases.js"></script>
 <script src="functions.js"></script>
 
 <script id="openTestCasesSelectModalButton" type="text/x-handlebars-template">
@@ -171,7 +171,7 @@ $(document).ready(function(){
         selectedMethodTestCaseId = option;
         var methodExecution = selectedMethodTestCases[selectedMethodTestCaseId][selectedMethodId];
         $("#input").html(JSON.stringify(methodExecution.input));
-        $("#output").html(methodExecution.output);
+        $("#output").html(JSON.stringify(methodExecution.output));
     }
 
     function clearTippies(){
