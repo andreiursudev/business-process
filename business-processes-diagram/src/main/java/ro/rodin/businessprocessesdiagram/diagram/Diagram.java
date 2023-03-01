@@ -4,26 +4,35 @@ import java.util.*;
 
 public class Diagram {
 
-    public List<TestCase> testCases;
+    private List<MethodExecution> methodExecutions;
     private Integer stackDepth = 0;
-    private TestCase currentTestCase;
+    private MethodExecution currentMethodExecution;
 
     public Diagram() {
-        testCases = new ArrayList<>();
+        methodExecutions = new ArrayList<>();
     }
 
-    public TestCase addMethodExecutionToTestCase(String testCaseName, MethodExecution methodExecution) {
+    public Diagram(MethodExecution methodExecution) {
+        this.methodExecutions = List.of(methodExecution);
+    }
+
+    public MethodExecution addMethodExecution(MethodExecution methodExecution) {
         if (stackDepth == 0) {
-            currentTestCase = new TestCase(testCaseName, methodExecution);
-            testCases.add(currentTestCase);
+            currentMethodExecution = methodExecution;
+            methodExecutions.add(methodExecution);
         } else {
-            MethodExecution currentMethodExecution = currentTestCase.getMethodExecution();
-            for (int i = 1; i < stackDepth; i++) {
-                currentMethodExecution = currentMethodExecution.getChildren().get(currentMethodExecution.getChildren().size() - 1);
-            }
-            currentMethodExecution.getChildren().add(methodExecution);
+            addMethodExecution(stackDepth, currentMethodExecution, methodExecution);
         }
-        return currentTestCase;
+        return currentMethodExecution;
+    }
+
+    private void addMethodExecution(int depth, MethodExecution currentMethodExecution, MethodExecution methodExecution) {
+        if (depth == 1) {
+            currentMethodExecution.getChildren().add(methodExecution);
+        } else {
+            MethodExecution lastChild = currentMethodExecution.getChildren().get(currentMethodExecution.getChildren().size() - 1);
+            addMethodExecution(depth - 1, lastChild, methodExecution);
+        }
     }
 
     public void increaseStackDepth() {
@@ -38,8 +47,8 @@ public class Diagram {
         return stackDepth;
     }
 
-    public List<TestCase> getTestCases() {
-        return testCases;
+    public List<MethodExecution> getMethodExecutions() {
+        return methodExecutions;
     }
 
     @Override
@@ -47,19 +56,23 @@ public class Diagram {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Diagram diagram = (Diagram) o;
-        return Objects.equals(testCases, diagram.testCases);
+        return Objects.equals(methodExecutions, diagram.methodExecutions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(testCases);
+        return Objects.hash(methodExecutions);
     }
 
     @Override
     public String toString() {
         return "Diagram{" +
-                "methodExecutionToTestCase=" + testCases +
+                "methodExecutions=" + methodExecutions +
                 '}';
+    }
+
+    public void clear() {
+        this.methodExecutions.clear();
     }
 }
 

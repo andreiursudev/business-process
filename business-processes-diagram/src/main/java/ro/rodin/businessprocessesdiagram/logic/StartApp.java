@@ -1,6 +1,4 @@
-package ro.rodin.businessprocessesdiagram;
-
-import ro.rodin.businessprocessesdiagram.logic.Object99;
+package ro.rodin.businessprocessesdiagram.logic;
 
 public class StartApp {
     public static void main(String[] args) {

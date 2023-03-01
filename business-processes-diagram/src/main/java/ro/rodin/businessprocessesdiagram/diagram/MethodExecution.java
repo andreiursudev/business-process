@@ -30,6 +30,13 @@ public class MethodExecution {
         this.children = children;
     }
 
+    public MethodExecution(String methodName, MethodExecution child) {
+        this.methodName = methodName;
+        this.input = new LinkedHashMap<>();
+        this.output = null;
+        this.children = List.of(child);
+    }
+
     public String getMethodName() {
         return methodName;
     }
@@ -60,9 +67,12 @@ public class MethodExecution {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(methodName, input, output, children);
+    public String toString() {
+        return "MethodExecution{" +
+                "methodName='" + methodName + '\'' +
+                ", input=" + input +
+                ", output=" + output +
+                ", children=" + children +
+                '}';
     }
-
-
 }

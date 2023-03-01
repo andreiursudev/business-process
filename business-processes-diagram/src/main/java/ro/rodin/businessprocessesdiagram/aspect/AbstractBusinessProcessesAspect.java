@@ -5,18 +5,21 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
-import ro.rodin.businessprocessesdiagram.diagram.*;
+import ro.rodin.businessprocessesdiagram.diagram.Diagram;
+import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
+import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
+import ro.rodin.businessprocessesdiagram.diagram.MethodExecutionPrinter;
 
 import java.util.LinkedHashMap;
 
 @Aspect
 public abstract class AbstractBusinessProcessesAspect {
 
-    @Pointcut
+    @Pointcut()
     abstract void process();
 
     @Around("process()")
-    public Object around(ProceedingJoinPoint proceedingJoinPoint, ProceedingJoinPoint.EnclosingStaticPart thisEnclosingJoinPointStaticPart) throws Throwable {
+    public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         CodeSignature signature = (CodeSignature) proceedingJoinPoint.getSignature();
         Object[] args = proceedingJoinPoint.getArgs();
 
@@ -29,10 +32,9 @@ public abstract class AbstractBusinessProcessesAspect {
         System.out.println("packageName =" + packageName);
         System.out.println("className =" + className);
         System.out.println("methodName =" + methodName);
-        String callerMethod = thisEnclosingJoinPointStaticPart.getSignature().getName();
         MethodExecution methodExecution = new MethodExecution(className + "_" + methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
-        TestCase testCase = diagram.addMethodExecutionToTestCase(callerMethod, methodExecution);
+        MethodExecution methodExecutionResult = diagram.addMethodExecution(methodExecution);
 
         diagram.increaseStackDepth();
 
@@ -41,7 +43,10 @@ public abstract class AbstractBusinessProcessesAspect {
 
         methodExecution.setOutput(output);
 
-        TestCasePrinter.print(testCase);
+        if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
+            MethodExecutionPrinter.print(methodExecutionResult);
+            GlobalDiagram.getDiagram().clear();
+        }
 
         return output;
     }

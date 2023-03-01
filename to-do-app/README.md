@@ -1,1 +1,1 @@
-java -javaagent:"d:/aspectjweaver-1.9.19.jar" --add-opens java.base/java.lang=ALL-UNNAMED -jar to-do-app-1.0-SNAPSHOT.jar
+java -javaagent:"d:/aspectjweaver-1.9.19.jar" --add-opens java.base/java.lang=ALL-UNNAMED -jar to-do-app-0.0.1-SNAPSHOT.jar

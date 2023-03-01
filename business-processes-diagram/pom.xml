@@ -72,7 +72,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>ro.rodin.businessprocessesdiagram.StartApp</mainClass>
+                            <mainClass>ro.rodin.businessprocessesdiagram.logic.StartApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

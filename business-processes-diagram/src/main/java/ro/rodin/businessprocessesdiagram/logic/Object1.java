@@ -45,4 +45,12 @@ public class Object1 {
     public String method2(String value) {
         return value + " 2 ";
     }
+
+    @Override
+    public String toString() {
+        return "Object1{" +
+                "object2=" + object2 +
+                ", object3=" + object3 +
+                '}';
+    }
 }

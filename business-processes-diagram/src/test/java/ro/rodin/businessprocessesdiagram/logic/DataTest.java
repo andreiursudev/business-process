@@ -1,7 +1,6 @@
-package ro.rodin.businessprocessesdiagram.diagram;
+package ro.rodin.businessprocessesdiagram.logic;
 
 import org.junit.jupiter.api.*;
-import ro.rodin.businessprocessesdiagram.logic.*;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -15,7 +14,7 @@ public class DataTest {
 
     @BeforeAll
     static void beforeAll() throws FileNotFoundException {
-        new PrintWriter("testCases.js").close();
+        new PrintWriter("methodExecutions.js").close();
     }
 
     @Test

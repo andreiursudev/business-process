@@ -1,7 +1,7 @@
 <aspectj>
     <aspects>
         <concrete-aspect name="ro.exceptionalbear.todoapp.ToDoAppAbstractAspect" extends="ro.rodin.businessprocessesdiagram.aspect.AbstractBusinessProcessesAspect">
-            <pointcut name="process" expression="call(* ro.exceptionalbear.todoapp.todo..*(..))"/>
+            <pointcut name="process" expression="execution(* ro.exceptionalbear.todoapp.todo..*(..))"/>
         </concrete-aspect>
     </aspects>
     <weaver options="-Xlint:ignore">

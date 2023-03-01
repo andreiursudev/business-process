@@ -1,7 +1,7 @@
 <aspectj>
     <aspects>
         <concrete-aspect name="ro.rodin.businessprocessesdiagram.aspect.MyProjectAbstractAspect" extends="ro.rodin.businessprocessesdiagram.aspect.AbstractBusinessProcessesAspect">
-            <pointcut name="process" expression="call(* ro.rodin.businessprocessesdiagram.logic..*(..))"/>
+            <pointcut name="process" expression="execution(* ro.rodin.businessprocessesdiagram.logic..*(..))"/>
         </concrete-aspect>
     </aspects>
     <!--<weaver options="-showWeaveInfo -Xlint:ignore">
