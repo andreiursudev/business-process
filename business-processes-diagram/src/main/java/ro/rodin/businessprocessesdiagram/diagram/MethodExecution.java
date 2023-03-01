@@ -1,29 +1,28 @@
 package ro.rodin.businessprocessesdiagram.diagram;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class MethodExecution {
 
     private String methodName;
-    private LinkedHashMap<String, Object> input;
-    private Object output;
+    private String input;
+    private String output;
     private List<MethodExecution> children = new ArrayList<>();
 
-    public MethodExecution(String methodName, LinkedHashMap<String, Object> input) {
+    public MethodExecution(String methodName, String input) {
         this.methodName = methodName;
         this.input = input;
     }
 
-    public MethodExecution(String methodName, LinkedHashMap<String, Object> input, Object output) {
+    public MethodExecution(String methodName, String input, String output) {
         this.methodName = methodName;
         this.input = input;
         this.output = output;
     }
 
-    public MethodExecution(String methodName, LinkedHashMap<String, Object> input, Object output, List<MethodExecution> children) {
+    public MethodExecution(String methodName, String input, String output, List<MethodExecution> children) {
         this.methodName = methodName;
         this.input = input;
         this.output = output;
@@ -32,7 +31,7 @@ public class MethodExecution {
 
     public MethodExecution(String methodName, MethodExecution child) {
         this.methodName = methodName;
-        this.input = new LinkedHashMap<>();
+        this.input = null;
         this.output = null;
         this.children = List.of(child);
     }
@@ -41,7 +40,7 @@ public class MethodExecution {
         return methodName;
     }
 
-    public LinkedHashMap<String, Object> getInput() {
+    public String getInput() {
         return input;
     }
 
@@ -50,7 +49,7 @@ public class MethodExecution {
         return output;
     }
 
-    public void setOutput(Object output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 

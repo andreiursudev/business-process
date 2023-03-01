@@ -1,6 +1,7 @@
 package ro.rodin.businessprocessesdiagram.diagram;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,6 +15,7 @@ public class MethodExecutionPrinter {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try {
             FileWriter fw = new FileWriter("methodExecutions.js", true);
             BufferedWriter bw = new BufferedWriter(fw);

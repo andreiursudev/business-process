@@ -20,7 +20,7 @@ public class DiagramTest {
 
         object1.simpleMethod("value");
 
-        Assertions.assertEquals(new Diagram(new MethodExecution("DiagramTest_executeSimpleMethod", new MethodExecution("Object1_simpleMethod", new LinkedHashMap<>(){{put("param", "value");}}, "value 1"))), GlobalDiagram.getDiagram());
+        Assertions.assertEquals(new Diagram(new MethodExecution("DiagramTest_executeSimpleMethod", new MethodExecution("Object1_simpleMethod", "{\"param\":\"value\"}", "\"value 1\""))), GlobalDiagram.getDiagram());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class DiagramTest {
 
         object1.simpleMethod("otherValue");
 
-        Assertions.assertEquals(new Diagram(new MethodExecution("DiagramTest_executeSimpleMethodAgain", new MethodExecution("Object1_simpleMethod",new LinkedHashMap<>(){{put("param", "otherValue");}}, "otherValue 1"))), GlobalDiagram.getDiagram());
+        Assertions.assertEquals(new Diagram(new MethodExecution("DiagramTest_executeSimpleMethodAgain", new MethodExecution("Object1_simpleMethod","{\"param\":\"otherValue\"}", "\"otherValue 1\""))), GlobalDiagram.getDiagram());
     }
 
     @Test
@@ -41,8 +41,8 @@ public class DiagramTest {
         object1.methodWithInnerCall("value");
 
         assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithInnerCall",
-                new MethodExecution("Object1_methodWithInnerCall", new LinkedHashMap<>(){{put("param", "value");}}, "value 1 1",
-                        List.of(new MethodExecution("Object1_simpleMethod", new LinkedHashMap<>(){{put("param", "value");}}, "value 1"))))), GlobalDiagram.getDiagram());
+                new MethodExecution("Object1_methodWithInnerCall", "{\"param\":\"value\"}", "\"value 1 1\"",
+                        List.of(new MethodExecution("Object1_simpleMethod", "{\"param\":\"value\"}", "\"value 1\""))))), GlobalDiagram.getDiagram());
     }
 
     @Test
@@ -52,8 +52,8 @@ public class DiagramTest {
 
         object1.methodWithDifferentObjectInnerCall("value");
 
-        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithDifferentObjectInnerCall", new MethodExecution("Object1_methodWithDifferentObjectInnerCall", new LinkedHashMap<>(){{put("param", "value");}}, "value 2 1",
-                List.of(new MethodExecution("Object2_doSomething", new LinkedHashMap<>(){{put("param", "value");}}, "value 2")))
+        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithDifferentObjectInnerCall", new MethodExecution("Object1_methodWithDifferentObjectInnerCall", "{\"param\":\"value\"}", "\"value 2 1\"",
+                List.of(new MethodExecution("Object2_doSomething", "{\"param\":\"value\"}", "\"value 2\"")))
         )), GlobalDiagram.getDiagram());
     }
 
@@ -64,9 +64,9 @@ public class DiagramTest {
 
         object1.methodWithDifferentObjectsInnerCall("value");
 
-        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithDifferentObjectsInnerCall", new MethodExecution("Object1_methodWithDifferentObjectsInnerCall", new LinkedHashMap<>(){{put("param", "value");}}, "value 2 value 3", List.of(
-                new MethodExecution("Object2_doSomething", new LinkedHashMap<>(){{put("param", "value");}}, "value 2"),
-                new MethodExecution("Object3_doSomethingElse", new LinkedHashMap<>(){{put("param", "value");}}, "value 3"))))), GlobalDiagram.getDiagram());
+        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithDifferentObjectsInnerCall", new MethodExecution("Object1_methodWithDifferentObjectsInnerCall", "{\"param\":\"value\"}", "\"value 2 value 3\"", List.of(
+                new MethodExecution("Object2_doSomething", "{\"param\":\"value\"}", "\"value 2\""),
+                new MethodExecution("Object3_doSomethingElse", "{\"param\":\"value\"}", "\"value 3\""))))), GlobalDiagram.getDiagram());
     }
 
     @Test
@@ -76,10 +76,10 @@ public class DiagramTest {
 
         object1.methodWithMoreDepthDifferentObjectsInnerCall("value");
 
-        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithMoreDepthDifferentObjectsInnerCall", new MethodExecution("Object1_methodWithMoreDepthDifferentObjectsInnerCall", new LinkedHashMap<>(){{put("param", "value");}}, "value 2 value 4 3", List.of(
-                new MethodExecution("Object2_doSomething", new LinkedHashMap<>(){{put("param", "value");}}, "value 2"),
-                new MethodExecution("Object3_doSomethingElseWithObject4", new LinkedHashMap<>(){{put("param", "value");}}, "value 4 3",
-                        List.of(new MethodExecution("Object4_doSomethingNew", new LinkedHashMap<>(){{put("param", "value");}}, "value 4")))))
+        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithMoreDepthDifferentObjectsInnerCall", new MethodExecution("Object1_methodWithMoreDepthDifferentObjectsInnerCall", "{\"param\":\"value\"}", "\"value 2 value 4 3\"", List.of(
+                new MethodExecution("Object2_doSomething", "{\"param\":\"value\"}", "\"value 2\""),
+                new MethodExecution("Object3_doSomethingElseWithObject4", "{\"param\":\"value\"}", "\"value 4 3\"",
+                        List.of(new MethodExecution("Object4_doSomethingNew", "{\"param\":\"value\"}", "\"value 4\"")))))
         )), GlobalDiagram.getDiagram());
     }
 
@@ -90,7 +90,7 @@ public class DiagramTest {
 
         object1.methodWithCondition("value1");
 
-        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithConditionTrue", new MethodExecution("Object1_methodWithCondition", new LinkedHashMap<>(){{put("value", "value1");}}, "value1 2", List.of(new MethodExecution("Object2_doSomething", new LinkedHashMap<>(){{put("param", "value1");}}, "value1 2")))
+        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithConditionTrue", new MethodExecution("Object1_methodWithCondition", "{\"value\":\"value1\"}", "\"value1 2\"", List.of(new MethodExecution("Object2_doSomething", "{\"param\":\"value1\"}", "\"value1 2\"")))
         )), GlobalDiagram.getDiagram());
     }
 
@@ -101,7 +101,7 @@ public class DiagramTest {
 
         object1.methodWithCondition("value2");
 
-        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithConditionFalse", new MethodExecution("Object1_methodWithCondition", new LinkedHashMap<>(){{put("value", "value2");}}, "value2 3", List.of(new MethodExecution("Object3_doSomethingElse", new LinkedHashMap<>(){{put("param", "value2");}}, "value2 3")))
+        assertEquals(new Diagram(new MethodExecution("DiagramTest_executeMethodWithConditionFalse", new MethodExecution("Object1_methodWithCondition", "{\"value\":\"value2\"}", "\"value2 3\"", List.of(new MethodExecution("Object3_doSomethingElse", "{\"param\":\"value2\"}", "\"value2 3\"")))
         )), GlobalDiagram.getDiagram());
     }
 

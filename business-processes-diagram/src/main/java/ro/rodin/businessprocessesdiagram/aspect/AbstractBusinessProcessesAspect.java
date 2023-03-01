@@ -10,8 +10,6 @@ import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
 import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
 import ro.rodin.businessprocessesdiagram.diagram.MethodExecutionPrinter;
 
-import java.util.LinkedHashMap;
-
 @Aspect
 public abstract class AbstractBusinessProcessesAspect {
 
@@ -23,15 +21,15 @@ public abstract class AbstractBusinessProcessesAspect {
         CodeSignature signature = (CodeSignature) proceedingJoinPoint.getSignature();
         Object[] args = proceedingJoinPoint.getArgs();
 
-        LinkedHashMap<String, Object> input = WorldHelper.getInput(signature.getParameterNames(), args);
+        String input = WorldHelper.getInput(signature.getParameterNames(), args);
         String packageName = signature.getDeclaringType().getPackageName();
         String className = signature.getDeclaringType().getSimpleName();
         String methodName = signature.getName();
 
-        System.out.println("input=" + input);
-        System.out.println("packageName =" + packageName);
-        System.out.println("className =" + className);
-        System.out.println("methodName =" + methodName);
+        //System.out.println("input=" + input);
+        //System.out.println("packageName =" + packageName);
+        //System.out.println("className =" + className);
+        //System.out.println("methodName =" + methodName);
         MethodExecution methodExecution = new MethodExecution(className + "_" + methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
         MethodExecution methodExecutionResult = diagram.addMethodExecution(methodExecution);
@@ -41,7 +39,7 @@ public abstract class AbstractBusinessProcessesAspect {
         Object output = proceedingJoinPoint.proceed();
         diagram.decreaseStackDepth();
 
-        methodExecution.setOutput(output);
+        methodExecution.setOutput(WorldHelper.getOutput(output));
 
         if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
             MethodExecutionPrinter.print(methodExecutionResult);
