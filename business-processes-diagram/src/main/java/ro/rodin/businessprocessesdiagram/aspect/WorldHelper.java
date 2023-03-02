@@ -1,6 +1,7 @@
 package ro.rodin.businessprocessesdiagram.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import ro.rodin.businessprocessesdiagram.diagram.CustomObjectMapper;
 
 import java.util.LinkedHashMap;
 

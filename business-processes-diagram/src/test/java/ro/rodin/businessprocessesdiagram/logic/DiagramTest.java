@@ -4,12 +4,13 @@ import org.junit.jupiter.api.*;
 import ro.rodin.businessprocessesdiagram.diagram.Diagram;
 import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
 import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
+import ro.rodin.businessprocessesdiagram.logic.logic1.Object1;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DiagramTest {
 

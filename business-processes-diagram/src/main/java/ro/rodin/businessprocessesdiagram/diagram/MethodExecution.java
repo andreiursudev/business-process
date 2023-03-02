@@ -6,10 +6,19 @@ import java.util.Objects;
 
 public class MethodExecution {
 
+    private String packageName;
+    private String className;
     private String methodName;
     private String input;
     private String output;
     private List<MethodExecution> children = new ArrayList<>();
+
+    public MethodExecution(String packageName, String className, String methodName, String input) {
+        this.packageName = packageName;
+        this.className = className;
+        this.methodName = methodName;
+        this.input = input;
+    }
 
     public MethodExecution(String methodName, String input) {
         this.methodName = methodName;
@@ -51,6 +60,14 @@ public class MethodExecution {
 
     public void setOutput(String output) {
         this.output = output;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public String getClassName() {
+        return className;
     }
 
     public List<MethodExecution> getChildren() {

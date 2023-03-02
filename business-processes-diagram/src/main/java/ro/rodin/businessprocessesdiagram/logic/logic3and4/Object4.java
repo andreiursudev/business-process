@@ -1,4 +1,4 @@
-package ro.rodin.businessprocessesdiagram.logic;
+package ro.rodin.businessprocessesdiagram.logic.logic3and4;
 
 public class Object4 {
 

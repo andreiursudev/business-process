@@ -1,4 +1,4 @@
-package ro.rodin.businessprocessesdiagram.logic;
+package ro.rodin.businessprocessesdiagram.logic.logic2;
 
 public class Object2 {
     public String doSomething(String param) {

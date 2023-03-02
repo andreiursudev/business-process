@@ -17,7 +17,7 @@ public class MethodExecutionPrinter {
         objectMapper.findAndRegisterModules();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try {
-            FileWriter fw = new FileWriter("methodExecutions.js", true);
+            FileWriter fw = new FileWriter("../method-execution-viewer/methodExecutions.js", true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write("var methodExecution" + ++numberOfMethodExecutions + " = " + objectMapper.writeValueAsString(methodExecution));
             bw.newLine();

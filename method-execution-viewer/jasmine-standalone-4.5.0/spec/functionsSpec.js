@@ -8,6 +8,94 @@ describe('getKeysByPattern', function() {
 
 });
 
+describe('getZNodes', function() {
+    it('one methodExecution', function() {
+        var methodExecutions = {
+            "methodExecution1": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            }
+        }
+
+        let result = getZNodes(methodExecutions);
+
+        expect(result).toEqual([
+            {name:"your", open:true, children:[
+                    {name:"package", open:true, children:[
+                            {name:"name", open:true, children:[
+                                    {name:"logic", open:true, children:[
+                                            {name:"logic1", open:true, children:[
+                                                    {name:"Object1Test", open:true, children:[
+                                                            {name:"callMethod1"}]}]}]}]}]}]}]);
+    });
+})
+
+describe('getZNodes', function() {
+    it('two methodExecutions with same package name', function() {
+        var methodExecutions = {
+            "methodExecution1": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            },
+            "methodExecution2": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod2",
+                "children": []
+            }
+        }
+
+        let result = getZNodes(methodExecutions);
+
+        expect(result).toEqual([
+            {name:"your", open:true, children:[
+                    {name:"package", open:true, children:[
+                            {name:"name", open:true, children:[
+                                    {name:"logic", open:true, children:[
+                                            {name:"logic1", open:true, children:[
+                                                    {name:"Object1Test", open:true, children:[
+                                                            {name:"callMethod1"}, {name:"callMethod2"}]}]}]}]}]}]}]);
+    });
+})
+
+describe('getZNodes', function() {
+    it('two methodExecutions with one difference in the package name', function() {
+        var methodExecutions = {
+            "methodExecution1": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            },
+            "methodExecution2": {
+                "packageName": "your.package.name.logic.logic2",
+                "className": "Object2Test",
+                "methodName": "callMethod2",
+                "children": []
+            }
+        }
+
+        let result = getZNodes(methodExecutions);
+
+        expect(result).toEqual([
+            {name:"your", open:true, children:[
+                    {name:"package", open:true, children:[
+                            {name:"name", open:true, children:[
+                                    {name:"logic", open:true, children:[
+                                            {name:"logic1", open:true, children:[
+                                                    {name:"Object1Test", open:true, children:[
+                                                            {name:"callMethod1"}]}]},
+                                            {name:"logic2", open:true, children:[
+                                                    {name:"Object2Test", open:true, children:[
+                                                            {name:"callMethod2"}]}]}]}]}]}]}]);
+    });
+})
+
+
 describe('getMethodsTree', function() {
     it('callMethod1', function() {
         var testCases = {testCase1: {"testCaseName":"callMethod1","methodExecution":{"methodName":"method1","children":[]}}}
@@ -173,7 +261,20 @@ describe('getTestCasesToMethod', function() {
 
     it('methodCallsAnotherMethod one scenario', function() {
         var testCases = {
-            testCase4 : {"testCaseName":"methodCallsAnotherMethodScenario1","methodExecution":{"methodName":"Object2_method1","input":{"value":"value1"},"output":"value1 1 2","children":[{"methodName":"Object2_method2","input":{"value":"value1 1"},"output":"value1 1 2","children":[]}]}}
+            testCase4: {
+                "testCaseName": "methodCallsAnotherMethodScenario1",
+                "methodExecution": {
+                    "methodName": "Object2_method1",
+                    "input": {"value": "value1"},
+                    "output": "value1 1 2",
+                    "children": [{
+                        "methodName": "Object2_method2",
+                        "input": {"value": "value1 1"},
+                        "output": "value1 1 2",
+                        "children": []
+                    }]
+                }
+            }
         };
 
         let result = getTestCasesToMethod(testCases);

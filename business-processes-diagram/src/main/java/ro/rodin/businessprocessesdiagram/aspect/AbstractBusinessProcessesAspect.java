@@ -30,7 +30,7 @@ public abstract class AbstractBusinessProcessesAspect {
         //System.out.println("packageName =" + packageName);
         //System.out.println("className =" + className);
         //System.out.println("methodName =" + methodName);
-        MethodExecution methodExecution = new MethodExecution(className + "_" + methodName, input);
+        MethodExecution methodExecution = new MethodExecution(packageName, className, methodName, input);
         Diagram diagram = GlobalDiagram.getDiagram();
         MethodExecution methodExecutionResult = diagram.addMethodExecution(methodExecution);
 

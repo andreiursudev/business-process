@@ -1,4 +1,7 @@
-package ro.rodin.businessprocessesdiagram.logic;
+package ro.rodin.businessprocessesdiagram.logic.logic1;
+
+import ro.rodin.businessprocessesdiagram.logic.logic2.Object2;
+import ro.rodin.businessprocessesdiagram.logic.logic3and4.Object3;
 
 public class Object1 {
 

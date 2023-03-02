@@ -86,3 +86,90 @@ var getTestCasesToMethod = function (localTestCases) {
     }
     return testCasesToMethod;
 }
+
+var groupMethodExecutionsByPackageAndClass = function (methodExecutions) {
+    var result = {};
+    for (var i in methodExecutions) {
+        var methodExecution = methodExecutions[i];
+        var packageName = methodExecution.packageName;
+        var className = methodExecution.className;
+        var id = packageName + className;
+        if (result[id] == null) {
+            result[id] = {
+                packageName: methodExecution["packageName"],
+                className: methodExecution["className"],
+                methodNames: [methodExecution["methodName"]]
+            };
+        } else {
+            result[id].methodNames.push(methodExecution["methodName"]);
+        }
+    }
+    return Object.values(result);
+}
+
+function getChildren(methodNames) {
+    return methodNames.map(methodName => ({"name": methodName}));
+}
+
+function exists(zNodes, directory) {
+    return zNodes.some(zNode => zNode['name'] === directory);
+}
+
+function getZNode(directories, index, lastChild, zNodes, zNode) {
+
+    if (index < directories.length) {
+        let directory = directories[index];
+        if(exists(zNodes, directory)){
+            let existingZNode = zNodes.find(n => n['name'] === directory);
+            getZNode(directories, index+1, lastChild,existingZNode.children, existingZNode)
+        } else {
+            let zNode = {
+                name: directory,
+                open: true,
+                children: []
+            };
+            zNodes.push(zNode)
+            getZNode(directories, index+1, lastChild,zNode.children, zNode)
+        }
+    } else {
+        zNode.children.push(lastChild);
+    }
+}
+
+var getZNodes = function (methodExecutions) {
+    var result = [];
+    for (const [key, methodExecution] of Object.entries(methodExecutions)) {
+        var lastChild = {name: methodExecution["methodName"]}
+
+        let directories = methodExecution.packageName.split(".").concat(methodExecution["className"]);
+
+        getZNode(directories, 0, lastChild, result, {});
+    }
+    return result;
+}
+
+/*
+var getZNodes = function(methodExecutions) {
+    var groupedMethodExecutions = groupMethodExecutionsByPackageAndClass(methodExecutions);
+
+    var zNodes = [];
+    for (const [key, methodExecution] of Object.entries(groupedMethodExecutions)) {
+        let directories = methodExecution.packageName.split(".");
+        var zNode = {
+            name: methodExecution["className"],
+            open: true,
+            children:getChildren(methodExecution["methodNames"])
+        };
+        for (var i = directories.length - 1; i >= 0; i--) {
+            zNode = {
+                name: directories[i],
+                open: true,
+                children:[
+                    zNode]
+            }
+        }
+        zNodes.push(zNode);
+    }
+    return zNodes;
+}
+*/

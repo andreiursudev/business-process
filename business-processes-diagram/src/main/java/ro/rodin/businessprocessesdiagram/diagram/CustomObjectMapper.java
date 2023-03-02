@@ -1,4 +1,4 @@
-package ro.rodin.businessprocessesdiagram.aspect;
+package ro.rodin.businessprocessesdiagram.diagram;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
