@@ -27,6 +27,9 @@
         .methodTd{
             vertical-align:top;
         }
+        .formatted{
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
@@ -56,21 +59,21 @@
 <script src="methodExecutions.js"></script>
 <script src="functions.js"></script>
 <script id="inputOutputToolTip" type="text/x-handlebars-template">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-6">
                 Input:
             </div>
-            <div class="col">
+            <div class="col-6">
                 Output:
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                {{input}}
+            <div class="col-6  formatted">
+{{input}}
             </div>
-            <div class="col">
-                {{output}}
+            <div class="col-6  formatted">
+{{output}}
             </div>
         </div>
     </div>
@@ -95,7 +98,7 @@
                     let pathAsId = getPathAsId(node);
                     let method = $('<div class="method">');
                     method.prop('id', pathAsId)
-                    method.append(node.methodName);
+                    method.append(node.className + " " + node.methodName);
 
                     return $('<tr>')
                         .append($('<td class=methodTd">')
@@ -110,8 +113,8 @@
                         content: Handlebars.compile($('#inputOutputToolTip').html())({input: node.input, output: node.output}),
                         trigger: 'click',
                         interactive: true,
-                        hideOnClick: 'toggle',
-                        allowHTML: true
+                        allowHTML: true,
+                        maxWidth: 'none'
                     });
                     if(node.children != null) {
                         let td = $('<td>');

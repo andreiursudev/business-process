@@ -13,6 +13,7 @@ public enum CustomObjectMapper {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         this.objectMapper = objectMapper;
     }
 

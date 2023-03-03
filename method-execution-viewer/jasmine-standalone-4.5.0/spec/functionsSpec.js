@@ -30,9 +30,9 @@ describe('getZNodes', function() {
                                                     {name:"Object1Test", open:true, children:[
                                                             {name:"callMethod1"}]}]}]}]}]}]}]);
     });
-})
 
-describe('getZNodes', function() {
+
+
     it('two methodExecutions with same package name', function() {
         var methodExecutions = {
             "methodExecution1": {
@@ -60,9 +60,8 @@ describe('getZNodes', function() {
                                                     {name:"Object1Test", open:true, children:[
                                                             {name:"callMethod1"}, {name:"callMethod2"}]}]}]}]}]}]}]);
     });
-})
 
-describe('getZNodes', function() {
+
     it('two methodExecutions with one difference in the package name', function() {
         var methodExecutions = {
             "methodExecution1": {
@@ -92,6 +91,35 @@ describe('getZNodes', function() {
                                             {name:"logic2", open:true, children:[
                                                     {name:"Object2Test", open:true, children:[
                                                             {name:"callMethod2"}]}]}]}]}]}]}]);
+    });
+
+
+    it('two methodExecutions with one same the package name', function() {
+        var methodExecutions = {
+            "methodExecution1": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            },
+            "methodExecution2": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            }
+        }
+
+        let result = getZNodes(methodExecutions);
+
+        expect(result).toEqual([
+            {name:"your", open:true, children:[
+                    {name:"package", open:true, children:[
+                            {name:"name", open:true, children:[
+                                    {name:"logic", open:true, children:[
+                                            {name:"logic1", open:true, children:[
+                                                    {name:"Object1Test", open:true, children:[
+                                                            {name:"callMethod1"}]}]}]}]}]}]}]);
     });
 })
 

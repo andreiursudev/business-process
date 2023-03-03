@@ -4,8 +4,8 @@ var getKeysByPattern = function (obj, pattern) {
     }, {});
 }
 
-function exists(zNodes, directory) {
-    return zNodes.some(zNode => zNode['name'] === directory);
+function exists(zNodes, name) {
+    return zNodes.some(zNode => zNode['name'] === name);
 }
 
 function getZNode(directories, index, lastChild, zNodes, zNode) {
@@ -25,7 +25,10 @@ function getZNode(directories, index, lastChild, zNodes, zNode) {
             getZNode(directories, index+1, lastChild,zNode.children, zNode)
         }
     } else {
-        zNode.children.push(lastChild);
+        if(!exists(zNode.children, lastChild.name)){
+            zNode.children.push(lastChild);
+        }
+
     }
 }
 
