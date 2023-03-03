@@ -148,28 +148,20 @@ var getZNodes = function (methodExecutions) {
     return result;
 }
 
-/*
-var getZNodes = function(methodExecutions) {
-    var groupedMethodExecutions = groupMethodExecutionsByPackageAndClass(methodExecutions);
-
-    var zNodes = [];
-    for (const [key, methodExecution] of Object.entries(groupedMethodExecutions)) {
-        let directories = methodExecution.packageName.split(".");
-        var zNode = {
-            name: methodExecution["className"],
-            open: true,
-            children:getChildren(methodExecution["methodNames"])
-        };
-        for (var i = directories.length - 1; i >= 0; i--) {
-            zNode = {
-                name: directories[i],
-                open: true,
-                children:[
-                    zNode]
-            }
-        }
-        zNodes.push(zNode);
-    }
-    return zNodes;
+function getPath(methodExecution) {
+    return [methodExecution["packageName"],methodExecution["className"],methodExecution["methodName"]].join(".");
 }
-*/
+
+function getPathAsId(methodExecution){
+    return getPath(methodExecution).replaceAll(".","");
+}
+
+var getMethodExecution = function(nodePath, methodExecutions){
+    let path = nodePath.map(path => path.name).join(".");
+    for(var methodExecution of Object.values(methodExecutions)){
+        if(path === getPath(methodExecution)){
+            return methodExecution;
+        }
+    }
+
+}

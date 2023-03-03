@@ -95,6 +95,36 @@ describe('getZNodes', function() {
     });
 })
 
+describe('getMethodExecution', function() {
+    it('find methodExecution', function() {
+        var nodePath = [{name: "your"},{name: "package"},{name: "name"},{name: "logic"},{name: "logic1"},{name: "Object1Test"},{name: "callMethod1"}]
+
+        var methodExecutions = {
+            "methodExecution1": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod1",
+                "children": []
+            },
+            "methodExecution2": {
+                "packageName": "your.package.name.logic.logic1",
+                "className": "Object1Test",
+                "methodName": "callMethod2",
+                "children": []
+            }
+        }
+
+        let result = getMethodExecution(nodePath,methodExecutions);
+
+        expect(result).toEqual({
+            "packageName": "your.package.name.logic.logic1",
+            "className": "Object1Test",
+            "methodName": "callMethod1",
+            "children": []
+        });
+    });
+})
+
 
 describe('getMethodsTree', function() {
     it('callMethod1', function() {
