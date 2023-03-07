@@ -85,9 +85,11 @@ public class MethodExecution {
     @Override
     public String toString() {
         return "MethodExecution{" +
-                "methodName='" + methodName + '\'' +
-                ", input=" + input +
-                ", output=" + output +
+                "packageName='" + packageName + '\'' +
+                ", className='" + className + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", input='" + input + '\'' +
+                ", output='" + output + '\'' +
                 ", children=" + children +
                 '}';
     }

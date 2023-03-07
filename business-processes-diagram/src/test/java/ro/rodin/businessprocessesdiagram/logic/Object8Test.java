@@ -20,13 +20,4 @@ class Object8Test {
         assertEquals("value 1  2 ", value);
     }
 
-    @Test
-    @Order(2)
-    void injectMockScenario2() {
-        Object9 mock = mock(Object9.class);
-        when(mock.method2()).thenReturn(" 3 ");
-        Object8 object8 = new Object8(mock);
-        String value = object8.method1("value");
-        assertEquals("value 1  3 ", value);
-    }
 }

@@ -16,16 +16,18 @@ public class WorldHelper {
         }
         try {
             return CustomObjectMapper.INSTANCE.getObjectMapper().writeValueAsString(input);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return "";
     }
 
     public static String getOutput(Object output) {
         try {
             return CustomObjectMapper.INSTANCE.getObjectMapper().writeValueAsString(output);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return "";
     }
 }

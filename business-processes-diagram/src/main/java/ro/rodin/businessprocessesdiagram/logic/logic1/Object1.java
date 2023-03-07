@@ -56,4 +56,8 @@ public class Object1 {
                 ", object3=" + object3 +
                 '}';
     }
+
+    public void method3(String value2) {
+
+    }
 }

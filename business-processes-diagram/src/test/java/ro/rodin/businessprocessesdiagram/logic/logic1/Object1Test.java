@@ -34,4 +34,11 @@ class Object1Test {
         String value = object1.method2("value2");
         assertEquals("value2 2 ", value);
     }
+
+    @Test
+    @Order(3)
+    void callMethodThatRetursVoid() {
+        Object1 object1 = new Object1();
+         object1.method3("value2");
+    }
 }
