@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class CallMap {
 
-    private static Map<String, MethodCall> map = new LinkedHashMap<>();
+    private static Map<String, MethodExecution> map = new LinkedHashMap<>();
 
-    public static Map<String, MethodCall> getMap() {
+    public static Map<String, MethodExecution> getMap() {
         return map;
     }
 }

@@ -24,11 +24,11 @@ public abstract class MethodExecutionLogger {
 
         Object output = proceedingJoinPoint.proceed();
 
-        MethodCall methodCall = CallMap.getMap().get(packageName + className + methodName);
-        if (methodCall != null) {
-            methodCall.getMethodCall().setInput(input);
-            methodCall.getMethodCall().setOutput(WorldHelper.getOutput(output));
-            MethodExecutionPrinter.print(new MethodExecution(methodCall.getMethodCall(), methodCall.getMethodExecutions()));
+        MethodExecution methodExecution = CallMap.getMap().get(packageName + className + methodName);
+        if (methodExecution != null) {
+            methodExecution.setInput(input);
+            methodExecution.setOutput(WorldHelper.getOutput(output));
+            MethodExecutionPrinter.print(methodExecution);
         }
 
         return output;

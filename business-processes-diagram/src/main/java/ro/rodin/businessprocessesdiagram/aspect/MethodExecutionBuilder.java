@@ -40,9 +40,7 @@ public abstract class MethodExecutionBuilder {
         String id = enclosingSignature.getDeclaringType().getPackageName() +
                 enclosingSignature.getDeclaringType().getSimpleName() +
                 enclosingSignature.getName();
-        MethodExecution enclosingMethodExecution = new MethodExecution(enclosingSignature.getDeclaringType().getPackageName(),
-                enclosingSignature.getDeclaringType().getSimpleName(),
-                enclosingSignature.getName(), "");
+
         Object output = proceedingJoinPoint.proceed();
         MethodSignature methodSignature = (MethodSignature) codeSignature;
         diagram.decreaseStackDepth();
@@ -54,8 +52,8 @@ public abstract class MethodExecutionBuilder {
         }
 
         if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
-            CallMap.getMap().computeIfAbsent(id, k -> new MethodCall(enclosingMethodExecution, new ArrayList<>()));
-            List<MethodExecution> methodExecutions = CallMap.getMap().get(id).getMethodExecutions();
+            CallMap.getMap().computeIfAbsent(id, k -> new MethodExecution(enclosingSignature.getDeclaringType().getPackageName(),enclosingSignature.getDeclaringType().getSimpleName(),enclosingSignature.getName(), ""));
+            List<MethodExecution> methodExecutions = CallMap.getMap().get(id).getChildren();
             methodExecutions.add(methodExecutionResult);
 
             GlobalDiagram.getDiagram().clear();
