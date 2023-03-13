@@ -10,4 +10,8 @@ public class CallMap {
     public static Map<String, MethodExecution> getMap() {
         return map;
     }
+
+    public static void clear(){
+        getMap().clear();
+    }
 }

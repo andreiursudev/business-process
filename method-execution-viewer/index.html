@@ -18,9 +18,6 @@
             margin: 3px;
         }
 
-        .selected {
-            background: #2F6F44;
-        }
         .openTestCasesSelectModalButton{
             border-radius: 10px;
         }
@@ -99,46 +96,20 @@
 
         function beforeClick(treeId, treeNode, clickFlag) {
             if(!treeNode.isParent){
-                let methodExecution = getMethodExecution(treeNode.getPath(), methodExecutions);
-
-                function appendToElement(element, node) {
-
-                    let pathAsId = getPathAsId(node);
-                    let method = $('<div class="method">');
-                    method.prop('id', pathAsId)
-                    method.append(node.className + " " + node.methodName);
-
-                    return $('<tr>')
-                        .append($('<td class=methodTd">')
-                            .append(method));
-                }
-
-                function appendTo(element, node) {
-                    let tr = appendToElement(element, node);
-                    element.append(tr);
-                    tippy("#"+getPathAsId(node), {
-                        placement: 'bottom',
-                        content: Handlebars.compile($('#inputOutputToolTip').html())({input: node.input, output: node.output}),
-                        trigger: 'click',
-                        interactive: true,
-                        allowHTML: true,
-                        maxWidth: 'none'
-                    });
-                    if(node.children != null) {
-                        let td = $('<td>');
-                        tr.append(td);
-                        $.each(node.children, function (i, node) {
-                            appendTo(td, node)
-                        })
-                    }
-                }
-
                 let $methodExecution = $('#methodExecution');
                 $methodExecution.empty();
-                appendTo($methodExecution, methodExecution);
+                let path = treeNode.getPath();
+                let index = 0
+                if(!isNaN(path[path.length-1].name )){
+                    index = path.pop().name;
+                }
+                let foundMethodExecutions = getMethodExecutions(path, methodExecutions);
+
+                appendTo($methodExecution, foundMethodExecutions[index]);
             }
         }
         let zNodes = getZNodes(methodExecutions);
+
 
 
         zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);

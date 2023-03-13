@@ -29,6 +29,7 @@ public abstract class MethodExecutionLogger {
             methodExecution.setInput(input);
             methodExecution.setOutput(WorldHelper.getOutput(output));
             MethodExecutionPrinter.print(methodExecution);
+            CallMap.clear();
         }
 
         return output;
