@@ -17,7 +17,8 @@ public class WorldHelper {
         try {
             return CustomObjectMapper.INSTANCE.getObjectMapper().writeValueAsString(input);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+            System.out.println("getInput=" + e);
         }
         return "";
     }
@@ -26,7 +27,8 @@ public class WorldHelper {
         try {
             return CustomObjectMapper.INSTANCE.getObjectMapper().writeValueAsString(output);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+            System.out.println("getOutput=" + e);
         }
         return "";
     }

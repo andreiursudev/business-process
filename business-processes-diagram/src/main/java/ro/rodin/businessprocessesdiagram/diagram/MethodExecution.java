@@ -45,6 +45,15 @@ public class MethodExecution {
         this.children = List.of(child);
     }
 
+    public MethodExecution(MethodExecution methodExecution, List<MethodExecution> children) {
+        this.packageName = methodExecution.getPackageName();
+        this.className = methodExecution.getClassName();
+        this.methodName = methodExecution.getMethodName();
+        this.input = methodExecution.getInput();
+        this.output = methodExecution.getOutput();
+        this.children = children;
+    }
+
     public String getMethodName() {
         return methodName;
     }
@@ -54,12 +63,16 @@ public class MethodExecution {
     }
 
 
-    public Object getOutput() {
+    public String getOutput() {
         return output;
     }
 
     public void setOutput(String output) {
         this.output = output;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
     }
 
     public String getPackageName() {

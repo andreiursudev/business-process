@@ -19,11 +19,14 @@ public class MethodExecutionPrinter {
         try {
             FileWriter fw = new FileWriter("methodExecutions.js", true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("var methodExecution" + ++numberOfMethodExecutions + " = " + objectMapper.writeValueAsString(methodExecution));
+            String asString = objectMapper.writeValueAsString(methodExecution);
+            bw.write("var methodExecution" + ++numberOfMethodExecutions + " = " + asString);
             bw.newLine();
             bw.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            System.out.println("print=" + e);
+
         }
     }
 }

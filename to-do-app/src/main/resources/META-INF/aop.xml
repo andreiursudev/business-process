@@ -1,7 +1,10 @@
 <aspectj>
     <aspects>
-        <concrete-aspect name="ro.exceptionalbear.todoapp.ToDoAppAbstractAspect" extends="ro.rodin.businessprocessesdiagram.aspect.AbstractBusinessProcessesAspect">
-            <pointcut name="process" expression="execution(* ro.exceptionalbear.todoapp.todo..*(..))"/>
+        <concrete-aspect name="ro.exceptionalbear.todoapp.ToDoAppMethodExecutionLogger" extends="ro.rodin.businessprocessesdiagram.aspect.MethodExecutionLogger">
+            <pointcut name="executeMethodFromPackage" expression="execution(* ro.exceptionalbear.todoapp.todo..*(..))"/>
+        </concrete-aspect>
+        <concrete-aspect name="ro.exceptionalbear.todoapp.ToDoAppMethodExecutionBuilder" extends="ro.rodin.businessprocessesdiagram.aspect.MethodExecutionBuilder">
+            <pointcut name="callMethodFromPackage" expression="call(* ro.exceptionalbear.todoapp.todo..*(..))"/>
         </concrete-aspect>
     </aspects>
     <weaver options="-Xlint:ignore">

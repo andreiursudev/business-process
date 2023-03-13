@@ -6,19 +6,19 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
-import ro.rodin.businessprocessesdiagram.diagram.Diagram;
-import ro.rodin.businessprocessesdiagram.diagram.GlobalDiagram;
-import ro.rodin.businessprocessesdiagram.diagram.MethodExecution;
-import ro.rodin.businessprocessesdiagram.diagram.MethodExecutionPrinter;
+import ro.rodin.businessprocessesdiagram.diagram.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Aspect
-public abstract class AbstractBusinessProcessesAspect {
+public abstract class MethodExecutionBuilder {
 
     @Pointcut()
-    abstract void process();
+    abstract void callMethodFromPackage();
 
-    @Around("process()")
-    public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Around("callMethodFromPackage()")
+    public Object around(ProceedingJoinPoint proceedingJoinPoint, ProceedingJoinPoint.EnclosingStaticPart thisEnclosingJoinPointStaticPart) throws Throwable {
         CodeSignature codeSignature = (CodeSignature) proceedingJoinPoint.getSignature();
         Object[] args = proceedingJoinPoint.getArgs();
         String input = WorldHelper.getInput(codeSignature.getParameterNames(), args);
@@ -26,11 +26,7 @@ public abstract class AbstractBusinessProcessesAspect {
         String className = codeSignature.getDeclaringType().getSimpleName();
         String methodName = codeSignature.getName();
 
-        //System.out.println("input=" + input);
-        //System.out.println("packageName =" + packageName);
-        //System.out.println("className =" + className);
-        //System.out.println("methodName =" + methodName);
-        if(packageName.equals("jdk.proxy2")){
+        if (packageName.equals("jdk.proxy2")) {
             packageName = proceedingJoinPoint.getTarget().getClass().getInterfaces()[0].getPackageName();
             className = proceedingJoinPoint.getTarget().getClass().getInterfaces()[0].getSimpleName();
         }
@@ -40,18 +36,28 @@ public abstract class AbstractBusinessProcessesAspect {
 
         diagram.increaseStackDepth();
 
+        CodeSignature enclosingSignature = (CodeSignature) thisEnclosingJoinPointStaticPart.getSignature();
+        String id = enclosingSignature.getDeclaringType().getPackageName() +
+                enclosingSignature.getDeclaringType().getSimpleName() +
+                enclosingSignature.getName();
+        MethodExecution enclosingMethodExecution = new MethodExecution(enclosingSignature.getDeclaringType().getPackageName(),
+                enclosingSignature.getDeclaringType().getSimpleName(),
+                enclosingSignature.getName(), "");
         Object output = proceedingJoinPoint.proceed();
         MethodSignature methodSignature = (MethodSignature) codeSignature;
         diagram.decreaseStackDepth();
 
-        if(methodSignature.getReturnType().getSimpleName().equals("void")){
-        methodExecution.setOutput("");
+        if (methodSignature.getReturnType().getSimpleName().equals("void")) {
+            methodExecution.setOutput("");
         } else {
             methodExecution.setOutput(WorldHelper.getOutput(output));
         }
 
         if (GlobalDiagram.getDiagram().getStackDepth() == 0) {
-            MethodExecutionPrinter.print(methodExecutionResult);
+            CallMap.getMap().computeIfAbsent(id, k -> new MethodCall(enclosingMethodExecution, new ArrayList<>()));
+            List<MethodExecution> methodExecutions = CallMap.getMap().get(id).getMethodExecutions();
+            methodExecutions.add(methodExecutionResult);
+
             GlobalDiagram.getDiagram().clear();
         }
 
