@@ -12,7 +12,6 @@ public class MethodExecutionPrinter {
     private static Integer numberOfMethodExecutions = 0;
 
     public static void print(MethodExecution methodExecution) {
-
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);

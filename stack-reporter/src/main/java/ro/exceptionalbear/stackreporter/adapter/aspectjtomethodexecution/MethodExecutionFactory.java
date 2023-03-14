@@ -10,7 +10,7 @@ public class MethodExecutionFactory {
     public MethodExecution getMethodExecution(ProceedingJoinPoint proceedingJoinPoint) {
         CodeSignature codeSignature = (CodeSignature) proceedingJoinPoint.getSignature();
         Object[] args = proceedingJoinPoint.getArgs();
-        String input = InputFactory.getInput(codeSignature.getParameterNames(), args);
+        String input = getInput(codeSignature.getParameterNames(), args);
         String packageName = codeSignature.getDeclaringType().getPackageName();
         String className = codeSignature.getDeclaringType().getSimpleName();
         String methodName = codeSignature.getName();
@@ -26,4 +26,18 @@ public class MethodExecutionFactory {
         CodeSignature enclosingSignature = (CodeSignature) thisEnclosingJoinPointStaticPart.getSignature();
         return new MethodExecution(enclosingSignature.getDeclaringType().getPackageName(), enclosingSignature.getDeclaringType().getSimpleName(), enclosingSignature.getName(), "");
     }
+
+    public static String getInput(String[] parameterNames, Object[] args) {
+        if (parameterNames.length == 0) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < parameterNames.length; i++) {
+            result.append(parameterNames[i]).append(" = ").append(args[i]).append("\n");
+        }
+        result.deleteCharAt(result.length() - 1);
+
+        return result.toString();
+    }
+
 }

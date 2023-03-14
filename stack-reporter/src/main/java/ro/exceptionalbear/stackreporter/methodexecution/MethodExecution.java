@@ -33,8 +33,8 @@ public class MethodExecution {
         return output;
     }
 
-    public void setOutput(String output) {
-        this.output = output;
+    public void setOutput(Object output) {
+        this.output = output == null ? null : output.toString();
     }
 
     public void setInput(String input) {
@@ -53,7 +53,7 @@ public class MethodExecution {
         return children;
     }
 
-    public String getId() {
+    public String id() {
         return getPackageName() + getClassName() + getMethodName();
     }
 

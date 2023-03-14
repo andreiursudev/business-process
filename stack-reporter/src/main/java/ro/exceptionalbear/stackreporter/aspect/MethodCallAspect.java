@@ -8,7 +8,6 @@ import ro.exceptionalbear.stackreporter.methodexecution.MethodExecutionBuilder;
 import ro.exceptionalbear.stackreporter.methodexecution.RootIdToMethodExecution;
 import ro.exceptionalbear.stackreporter.methodexecution.MethodExecution;
 import ro.exceptionalbear.stackreporter.adapter.aspectjtomethodexecution.MethodExecutionFactory;
-import ro.exceptionalbear.stackreporter.adapter.aspectjtomethodexecution.OutputFactory;
 
 @Aspect
 public abstract class MethodCallAspect {
@@ -26,7 +25,7 @@ public abstract class MethodCallAspect {
         MethodExecutionBuilder.INSTANCE.increaseTreeDepth();
 
         Object output = proceedingJoinPoint.proceed();
-        currentMethodExecution.setOutput(OutputFactory.getOutputValue(proceedingJoinPoint.getSignature(), output));
+        currentMethodExecution.setOutput(output);
 
         MethodExecutionBuilder.INSTANCE.decreaseTreeDepth();
 

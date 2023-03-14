@@ -9,7 +9,6 @@ import ro.exceptionalbear.stackreporter.adapter.methodexecutiontofile.MethodExec
 import ro.exceptionalbear.stackreporter.methodexecution.MethodExecutionBuilder;
 import ro.exceptionalbear.stackreporter.methodexecution.RootIdToMethodExecution;
 import ro.exceptionalbear.stackreporter.adapter.aspectjtomethodexecution.MethodExecutionFactory;
-import ro.exceptionalbear.stackreporter.adapter.aspectjtomethodexecution.OutputFactory;
 
 @Aspect
 public abstract class MethodExecutionAspect {
@@ -25,10 +24,10 @@ public abstract class MethodExecutionAspect {
 
         Object output = proceedingJoinPoint.proceed();
 
-        MethodExecution rootMethodExecution = RootIdToMethodExecution.getMethodExecutionByRootId(currentMethodExecution.getId());
+        MethodExecution rootMethodExecution = RootIdToMethodExecution.getMethodExecutionByRootId(currentMethodExecution.id());
         if (rootMethodExecution != null) {
             rootMethodExecution.setInput(currentMethodExecution.getInput());
-            rootMethodExecution.setOutput(OutputFactory.getOutputValue(proceedingJoinPoint.getSignature(), output));
+            rootMethodExecution.setOutput(output);
             MethodExecutionPrinter.print(rootMethodExecution);
             RootIdToMethodExecution.clear();
             MethodExecutionBuilder.INSTANCE.clear();

@@ -12,8 +12,8 @@ public class RootIdToMethodExecution {
     }
 
     public static void addMethodExecutionTreeToRootMethodExecution(MethodExecution methodExecutionTree, MethodExecution rootMethodExecution) {
-        rootToMethodExecution.computeIfAbsent(rootMethodExecution.getId(), k -> rootMethodExecution);
-        rootToMethodExecution.get(rootMethodExecution.getId()).getChildren().add(methodExecutionTree);
+        rootToMethodExecution.computeIfAbsent(rootMethodExecution.id(), k -> rootMethodExecution);
+        rootToMethodExecution.get(rootMethodExecution.id()).getChildren().add(methodExecutionTree);
     }
 
     public static void clear(){
