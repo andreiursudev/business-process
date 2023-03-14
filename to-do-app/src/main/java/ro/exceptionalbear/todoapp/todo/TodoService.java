@@ -26,8 +26,9 @@ public class TodoService {
 		todoRepository.deleteById(id);
 	}
 
-	public void updateTodo(int id, Todo todo) {
+	public Todo updateTodo(int id, Todo todo) {
 		todoRepository.updateTodo(todo.getDescription(),todo.getUsername(),todo.getTargetDate(), todo.isDone(), id);
+		return findById(id);
 	}
 
 	public Todo save(Todo todo) {

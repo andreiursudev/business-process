@@ -1,0 +1,14 @@
+<aspectj>
+    <aspects>
+        <concrete-aspect name="ro.exceptionalbear.stackreporter.aspect.MyLogMethodExecution" extends="ro.exceptionalbear.stackreporter.aspect.MethodExecutionAspect">
+            <pointcut name="methodExecution" expression="execution(* ro.exceptionalbear.stackreporter.logic..*(..))"/>
+        </concrete-aspect>
+        <concrete-aspect name="ro.exceptionalbear.stackreporter.aspect.MyMethodExecutionBuilder" extends="ro.exceptionalbear.stackreporter.aspect.MethodCallAspect">
+            <pointcut name="methodCall" expression="call(* ro.exceptionalbear.stackreporter.logic..*(..))"/>
+        </concrete-aspect>
+    </aspects>
+    <!--<weaver options="-showWeaveInfo -Xlint:ignore">
+    </weaver>-->
+    <weaver options="-Xlint:ignore">
+    </weaver>
+</aspectj>

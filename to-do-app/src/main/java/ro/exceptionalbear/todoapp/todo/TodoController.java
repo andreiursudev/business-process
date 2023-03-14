@@ -36,17 +36,12 @@ public class TodoController {
 	@PutMapping("/users/{username}/todos/{id}")
 	public Todo updateTodo(@PathVariable String username,
 			@PathVariable int id, @RequestBody Todo todo) {
-		todoService.updateTodo(id, todo);
-		todo.setId(id);
-		return todo;
+		return todoService.updateTodo(id, todo);
 	}
 
 	@PostMapping("/users/{username}/todos")
 	public Todo createTodoPost(@PathVariable String username,
 							   @RequestBody Todo todo) {
-		todo.setUsername(username);
-		todo.setId(null);
-
 		return todoService.save(todo);
 	}
 
